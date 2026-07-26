@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Chess</string>
+    <string name="local_multi_player">Local Multiplayer</string>
+    <string name="multi_player">Multiplayer</string>
+    <string name="create_match">Create Match</string>
+    <string name="join_match">Join</string>
+    <string name="waiting_matches">Waiting Matches</string>
+    <string name="no_matches">No waiting matches found</string>
+    <string name="signing_in">Signing in to Play Games…</string>
+    <string name="match_title">Match</string>
+    <string name="restart">Restart</string>
+    <string name="quit_match">Quit Match</string>
+    <string name="game_over">Game Over</string>
+    <string name="play_again">Play Again</string>
+    <string name="white_wins">White wins!</string>
+    <string name="black_wins">Black wins!</string>
+    <string name="draw">Draw!</string>
+    <string name="match_name_label">Match Name</string>
+    <string name="optional_placeholder">Optional</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="my_active_matches">My Active Matches</string>
+    <string name="continue_button">Continue</string>
+    <string name="status_format">Status: %1$s</string>
+    <string name="white_you">White (You)</string>
+    <string name="black_you">Black (You)</string>
+    <string name="white_player">White Player</string>
+    <string name="black_player">Black Player</string>
+    <string name="turn_indicator">TURN</string>
+    <string name="back">Back</string>
+    <string name="invalid_move">Invalid move!</string>
+    <string name="not_your_turn">Not your turn!</string>
+
+    <!-- Google Play Games Services -->
+    <string name="game_services_project_id" translatable="false">300855117317</string>
+</resources>

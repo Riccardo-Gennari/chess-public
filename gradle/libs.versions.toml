@@ -1,0 +1,85 @@
+[versions]
+agp = "9.3.1"
+android-compileSdk = "37"
+android-minSdk = "32"
+android-targetSdk = "37"
+androidx-activity = "1.13.0"
+androidx-compose = "1.11.4"
+androidx-compose-material3 = "1.4.0"
+androidx-lifecycle = "2.11.0"
+androidx-navigation3 = "1.1.4"
+coil = "3.5.0"
+datastorePreferences = "1.2.1"
+firebase-bom = "34.16.0"
+googleServices = "4.5.0"
+jvmTarget = "21"
+kotest = "6.2.2"
+kotlin = "2.4.10"
+hilt = "2.60.1"
+hiltViewmodel = "1.4.0"
+ksp = "2.3.10"
+kotlinxCoroutines = "1.11.0"
+kotlinxSerialization = "1.11.0"
+ktlint = "14.2.0"
+ktlint-composeRules = "0.6.3"
+mockk = "1.14.11"
+play-services-auth = "21.6.0"
+play-services-games-v2 = "21.0.0"
+semanticVersioning = "0.19.3"
+turbine = "1.2.1"
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose" }
+androidx-lifecycle-viewmodelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtimeCompose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "androidx-compose" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-compose-material3" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidx-compose" }
+compose-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "androidx-navigation3" }
+compose-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "androidx-lifecycle" }
+compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-compose" }
+datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastorePreferences" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-viewmodel = { group = "androidx.hilt", name = "hilt-lifecycle-viewmodel-compose", version.ref = "hiltViewmodel" }
+kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
+kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+ktlint-gradlePlugin = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlint" }
+ktlint-compose-rules = { group = "io.nlopez.compose.rules", name = "ktlint", version.ref = "ktlint-composeRules" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+playAuth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-services-auth" }
+playGames = { group = "com.google.android.gms", name = "play-services-games-v2", version.ref = "play-services-games-v2" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+
+[bundles]
+compose = [
+    "compose-runtime", "compose-foundation", "compose-material3", "compose-ui",
+    "compose-uiToolingPreview", "androidx-lifecycle-viewmodelCompose", "androidx-lifecycle-runtimeCompose",
+    "compose-navigation3-ui", "compose-viewmodel-navigation3", "coil-compose"
+]
+hilt = [ "hilt-android", "hilt-viewmodel" ]
+firebase = ["firebase-auth", "firebase-database", "kotlinx-coroutines-play-services", "playAuth"]
+unitTest = [ "kotest-assertions-core", "kotest-property", "kotest-runner-junit5", "kotlinx-coroutines-test", "mockk", "turbine"]
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+semanticVersioning = { id = "com.github.jmongard.git-semver-plugin", version.ref = "semanticVersioning" }

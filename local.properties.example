@@ -1,0 +1,8 @@
+## This file is a template for local.properties.
+## Copy this file to local.properties and fill in the missing values.
+
+# Location of the SDK. This is only used by Gradle.
+# sdk.dir=/path/to/your/android/sdk
+
+# Firebase Web Client ID for Google Sign-In
+WEB_CLIENT_ID=your_web_client_id_here
