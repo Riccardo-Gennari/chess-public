@@ -10,6 +10,7 @@ androidx-lifecycle = "2.11.0"
 androidx-navigation3 = "1.1.4"
 coil = "3.5.0"
 datastorePreferences = "1.2.1"
+detekt = "1.23.8"
 firebase-bom = "34.16.0"
 googleServices = "4.5.0"
 jvmTarget = "21"
@@ -21,7 +22,8 @@ ksp = "2.3.10"
 kotlinxCoroutines = "1.11.0"
 kotlinxSerialization = "1.11.0"
 ktlint = "14.2.0"
-ktlint-composeRules = "0.6.3"
+ktlint-compose-rules = "0.6.6"
+ktlint-core = "1.8.0"
 mockk = "1.14.11"
 play-services-auth = "21.6.0"
 play-services-games-v2 = "21.0.0"
@@ -29,7 +31,6 @@ semanticVersioning = "0.19.3"
 turbine = "1.2.1"
 
 [libraries]
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose" }
@@ -44,6 +45,8 @@ compose-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", versi
 compose-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "androidx-lifecycle" }
 compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-compose" }
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastorePreferences" }
+detekt-compose-rules = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "ktlint-compose-rules" }
+detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database" }
@@ -58,8 +61,8 @@ kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "ko
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+ktlint-compose-rules = { group = "io.nlopez.compose.rules", name = "ktlint", version.ref = "ktlint-compose-rules" }
 ktlint-gradlePlugin = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlint" }
-ktlint-compose-rules = { group = "io.nlopez.compose.rules", name = "ktlint", version.ref = "ktlint-composeRules" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 playAuth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-services-auth" }
 playGames = { group = "com.google.android.gms", name = "play-services-games-v2", version.ref = "play-services-games-v2" }
@@ -77,8 +80,10 @@ unitTest = [ "kotest-assertions-core", "kotest-property", "kotest-runner-junit5"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
