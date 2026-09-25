@@ -35,7 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import it.ric.chess.R
-import it.ric.chess.feature.match.model.PieceColor
+import it.ric.chess.domain.model.PieceColor
 
 @Composable
 fun PlayerInfo(

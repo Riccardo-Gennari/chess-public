@@ -6,9 +6,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import it.ric.chess.R
-import it.ric.chess.feature.match.model.Piece
-import it.ric.chess.feature.match.model.PieceColor
-import it.ric.chess.feature.match.model.PieceType
+import it.ric.chess.domain.model.Piece
+import it.ric.chess.domain.model.PieceColor
+import it.ric.chess.domain.model.PieceType
 
 @Composable
 fun Piece(
