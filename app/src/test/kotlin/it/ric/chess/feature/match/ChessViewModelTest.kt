@@ -8,20 +8,23 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import it.ric.chess.core.log.Logger
-import it.ric.chess.core.model.GameMode
-import it.ric.chess.core.model.MatchStatus
-import it.ric.chess.feature.match.logic.MatchHandler
-import it.ric.chess.feature.match.logic.MatchHandlerFactory
-import it.ric.chess.feature.match.logic.MatchStateUpdate
-import it.ric.chess.feature.match.model.Board
+import it.ric.chess.domain.handler.MatchHandler
+import it.ric.chess.domain.handler.MatchHandlerFactory
+import it.ric.chess.domain.handler.MatchStateUpdate
+import it.ric.chess.domain.model.Board
+import it.ric.chess.domain.model.GameMode
+import it.ric.chess.domain.model.MatchStatus
+import it.ric.chess.domain.model.PieceColor
+import it.ric.chess.domain.model.PlayerInfo
+import it.ric.chess.domain.model.initialBoard
+import it.ric.chess.domain.usecase.auth.GetAuthenticatedPlayerUseCase
+import it.ric.chess.domain.usecase.match.CalculateValidMovesUseCase
+import it.ric.chess.domain.usecase.match.ExecuteMoveUseCase
 import it.ric.chess.feature.match.model.ChessboardNavigator
-import it.ric.chess.feature.match.model.PieceColor
-import it.ric.chess.feature.match.model.initialBoard
-import it.ric.chess.repository.AuthRepository
-import it.ric.chess.repository.PlayerRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flowOf
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ChessViewModelTest :
@@ -38,20 +41,20 @@ class ChessViewModelTest :
             nav: ChessboardNavigator,
             handler: MatchHandler,
         ): ChessViewModel {
-            val mockAuthRepository =
-                mockk<AuthRepository> {
-                    every { authUser } returns MutableStateFlow(null)
-                    every { uid } returns "test_uid"
-                }
-            val mockPlayerRepository = mockk<PlayerRepository>()
+            val mockGetAuthPlayerUseCase = mockk<GetAuthenticatedPlayerUseCase> {
+                every { this@mockk.invoke() } returns flowOf(PlayerInfo.anonymous)
+            }
+            val mockCalculateValidMovesUseCase = CalculateValidMovesUseCase()
+            val mockExecuteMoveUseCase = ExecuteMoveUseCase()
             val mockFactory = mockk<MatchHandlerFactory> {
                 every { create(any()) } returns handler
             }
             return ChessViewModel(
                 log = log,
                 navigator = nav,
-                authRepository = mockAuthRepository,
-                playerRepository = mockPlayerRepository,
+                getAuthenticatedPlayerUseCase = mockGetAuthPlayerUseCase,
+                calculateValidMovesUseCase = mockCalculateValidMovesUseCase,
+                executeMoveUseCase = mockExecuteMoveUseCase,
                 matchHandlerFactory = mockFactory,
                 matchId = null,
                 sharingStarted = SharingStarted.Eagerly,

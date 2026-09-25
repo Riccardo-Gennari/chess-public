@@ -4,13 +4,14 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.shouldBe
-import it.ric.chess.core.model.MatchStatus
-import it.ric.chess.feature.match.model.Board
-import it.ric.chess.feature.match.model.Piece
-import it.ric.chess.feature.match.model.PieceColor
-import it.ric.chess.feature.match.model.PieceType
-import it.ric.chess.feature.match.model.emptyBoard
-import it.ric.chess.feature.match.model.initialBoard
+import it.ric.chess.domain.logic.ChessRules
+import it.ric.chess.domain.model.Board
+import it.ric.chess.domain.model.MatchStatus
+import it.ric.chess.domain.model.Piece
+import it.ric.chess.domain.model.PieceColor
+import it.ric.chess.domain.model.PieceType
+import it.ric.chess.domain.model.emptyBoard
+import it.ric.chess.domain.model.initialBoard
 
 class ChessRulesTest : FunSpec({
 

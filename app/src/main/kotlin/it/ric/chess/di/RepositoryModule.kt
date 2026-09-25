@@ -6,14 +6,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import it.ric.chess.BuildConfig
-import it.ric.chess.datasource.firebase.FirebaseAuthRepository
-import it.ric.chess.datasource.firebase.FirebaseMatchRepository
-import it.ric.chess.datasource.playgames.DefaultPlayerRepository
-import it.ric.chess.feature.match.logic.DefaultMatchHandlerFactory
-import it.ric.chess.feature.match.logic.MatchHandlerFactory
-import it.ric.chess.repository.AuthRepository
-import it.ric.chess.repository.MatchRepository
-import it.ric.chess.repository.PlayerRepository
+import it.ric.chess.data.repository.DefaultPlayerRepository
+import it.ric.chess.data.repository.FirebaseAuthRepository
+import it.ric.chess.data.repository.FirebaseMatchRepository
+import it.ric.chess.domain.handler.DefaultMatchHandlerFactory
+import it.ric.chess.domain.handler.MatchHandlerFactory
+import it.ric.chess.domain.repository.AuthRepository
+import it.ric.chess.domain.repository.MatchRepository
+import it.ric.chess.domain.repository.PlayerRepository
 import javax.inject.Named
 import javax.inject.Singleton
 

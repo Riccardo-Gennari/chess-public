@@ -5,12 +5,14 @@ import io.kotest.matchers.shouldBe
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import it.ric.chess.core.model.MatchStatus
-import it.ric.chess.feature.match.model.Piece
-import it.ric.chess.feature.match.model.PieceColor
-import it.ric.chess.feature.match.model.PieceType
-import it.ric.chess.feature.match.model.emptyBoard
-import it.ric.chess.repository.MatchRepository
+import it.ric.chess.domain.handler.LocalMatchHandler
+import it.ric.chess.domain.logic.toFen
+import it.ric.chess.domain.model.MatchStatus
+import it.ric.chess.domain.model.Piece
+import it.ric.chess.domain.model.PieceColor
+import it.ric.chess.domain.model.PieceType
+import it.ric.chess.domain.model.emptyBoard
+import it.ric.chess.domain.repository.MatchRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 
