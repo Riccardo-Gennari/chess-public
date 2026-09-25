@@ -12,7 +12,8 @@ import it.ric.chess.navigation.EntryProviderInstaller
 object MenuNavigationModule {
     @Provides
     @IntoSet
-    fun provideMenuEntry(): EntryProviderInstaller = {
-        menu()
-    }
+    fun provideMenuEntry(): EntryProviderInstaller =
+        {
+            menu()
+        }
 }

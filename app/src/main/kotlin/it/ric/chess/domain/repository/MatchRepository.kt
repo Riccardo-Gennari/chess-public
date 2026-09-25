@@ -37,7 +37,10 @@ interface MatchRepository {
      * Removes the given user from the match.
      * If no more players are in the match, it is deleted.
      */
-    suspend fun quitMatch(matchId: String, uid: String)
+    suspend fun quitMatch(
+        matchId: String,
+        uid: String,
+    )
 
     /**
      * Updates the board state (FEN) and status.

@@ -5,6 +5,7 @@ import it.ric.chess.navigation.Route
 
 interface MenuNavigator {
     fun navigateToSinglePlayer()
+
     fun navigateToMultiplayerMenu()
 }
 

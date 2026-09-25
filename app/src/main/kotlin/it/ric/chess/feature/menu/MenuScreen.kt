@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -75,110 +76,112 @@ fun MenuScreen(
     onSignOut: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            painter = painterResource(R.drawable.chessboard),
-                            contentDescription = null,
-                            modifier = Modifier.size(32.dp).padding(end = 8.dp),
-                        )
-                        Text(stringResource(R.string.app_name))
-                    }
-                },
-            )
-        },
-        modifier = modifier,
-    ) { scaffoldPadding ->
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(scaffoldPadding)
-                    .padding(horizontal = 16.dp),
-        ) {
-            Card(
-                modifier = Modifier.fillMaxWidth().height(60.dp),
+    Box(modifier = modifier) {
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Image(
+                                painter = painterResource(R.drawable.chessboard),
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp).padding(end = 8.dp),
+                            )
+                            Text(stringResource(R.string.app_name))
+                        }
+                    },
+                )
+            },
+            modifier = Modifier.fillMaxSize(),
+        ) { scaffoldPadding ->
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(scaffoldPadding)
+                        .padding(horizontal = 16.dp),
             ) {
-                AnimatedContent(uiState.playerInfo) { player ->
-                    if (player != null) {
-                        ListItem(
-                            headlineContent = { Text(text = player.displayName) },
-                            leadingContent = {
-                                AsyncImage(
-                                    model = player.iconImageUri,
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop,
-                                    error = painterResource(R.drawable.person),
-                                    modifier =
-                                        Modifier
-                                            .size(48.dp)
-                                            .clip(CircleShape)
-                                            .background(MaterialTheme.colorScheme.primary),
-                                )
-                            },
-                            trailingContent = {
-                                if (uiState.isSignedIn) {
-                                    FilledIconButton(onClick = onSignOut) {
-                                        Icon(
-                                            painter = painterResource(R.drawable.logout),
-                                            contentDescription = null,
-                                        )
+                Card(
+                    modifier = Modifier.fillMaxWidth().height(60.dp),
+                ) {
+                    AnimatedContent(uiState.playerInfo) { player ->
+                        if (player != null) {
+                            ListItem(
+                                headlineContent = { Text(text = player.displayName) },
+                                leadingContent = {
+                                    AsyncImage(
+                                        model = player.iconImageUri,
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Crop,
+                                        error = painterResource(R.drawable.person),
+                                        modifier =
+                                            Modifier
+                                                .size(48.dp)
+                                                .clip(CircleShape)
+                                                .background(MaterialTheme.colorScheme.primary),
+                                    )
+                                },
+                                trailingContent = {
+                                    if (uiState.isSignedIn) {
+                                        FilledIconButton(onClick = onSignOut) {
+                                            Icon(
+                                                painter = painterResource(R.drawable.logout),
+                                                contentDescription = null,
+                                            )
+                                        }
+                                    } else {
+                                        FilledIconButton(onClick = onSignIn) {
+                                            Icon(
+                                                painter = painterResource(R.drawable.login),
+                                                contentDescription = null,
+                                            )
+                                        }
                                     }
-                                } else {
-                                    FilledIconButton(onClick = onSignIn) {
-                                        Icon(
-                                            painter = painterResource(R.drawable.login),
-                                            contentDescription = null,
-                                        )
-                                    }
-                                }
-                            },
-                            colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-                        )
-                    } else {
-                        ListItem(
-                            headlineContent = {},
-                            leadingContent = {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(32.dp),
-                                )
-                            },
-                            colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-                        )
+                                },
+                                colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+                            )
+                        } else {
+                            ListItem(
+                                headlineContent = {},
+                                leadingContent = {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(32.dp),
+                                    )
+                                },
+                                colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+                            )
+                        }
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.fillMaxHeight(0.25f))
+                Spacer(modifier = Modifier.fillMaxHeight(0.25f))
 
-            Card {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(16.dp),
-                ) {
-                    Button(
-                        onClick = onSinglePlayerSelect,
+                Card {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(16.dp),
                     ) {
-                        Text(stringResource(R.string.local_multi_player))
-                    }
+                        Button(
+                            onClick = onSinglePlayerSelect,
+                        ) {
+                            Text(stringResource(R.string.local_multi_player))
+                        }
 
-                    Button(
-                        onClick = onMultiPlayerSelect,
-                    ) {
-                        Text(stringResource(R.string.multi_player))
+                        Button(
+                            onClick = onMultiPlayerSelect,
+                        ) {
+                            Text(stringResource(R.string.multi_player))
+                        }
                     }
                 }
             }
         }
-    }
 
-    LoadingOverlayHost(uiState.loadingState, Modifier.fillMaxSize())
+        LoadingOverlayHost(uiState.loadingState, Modifier.fillMaxSize())
+    }
 }
 
 @PreviewLightDark

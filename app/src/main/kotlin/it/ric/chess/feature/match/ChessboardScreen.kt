@@ -1,6 +1,7 @@
 package it.ric.chess.feature.match
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -49,13 +50,14 @@ fun EntryProviderScope<Route>.chessboard() {
 }
 
 @Composable
-fun ChessboardScreen(matchId: String? = null) {
-    val viewModel: ChessViewModel =
+fun ChessboardScreen(
+    matchId: String? = null,
+    viewModel: ChessViewModel =
         hiltViewModel<ChessViewModel, ChessViewModel.Factory>(
             key = matchId,
             creationCallback = { factory -> factory.create(matchId) },
-        )
-
+        ),
+) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     ChessboardScreen(
@@ -82,92 +84,94 @@ fun ChessboardScreen(
     val myColor = uiState.myColor ?: PieceColor.WHITE
     val opponentColor = if (myColor == PieceColor.WHITE) PieceColor.BLACK else PieceColor.WHITE
 
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.match_title)) },
-                navigationIcon = { BackButton(onBack) },
-                actions = {
-                    if (uiState.gameMode == GameMode.LOCAL) {
-                        TextButton(onClick = onReset) {
-                            Text(stringResource(R.string.restart))
+    Box(modifier = modifier) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                TopAppBar(
+                    title = { Text(stringResource(R.string.match_title)) },
+                    navigationIcon = { BackButton(onBack) },
+                    actions = {
+                        if (uiState.gameMode == GameMode.LOCAL) {
+                            TextButton(onClick = onReset) {
+                                Text(stringResource(R.string.restart))
+                            }
                         }
-                    }
-                    if (uiState.myColor != null) {
-                        IconButton(onClick = onQuit) {
-                            Icon(
-                                painter = painterResource(R.drawable.logout),
-                                contentDescription = stringResource(R.string.quit_match),
-                            )
+                        if (uiState.myColor != null) {
+                            IconButton(onClick = onQuit) {
+                                Icon(
+                                    painter = painterResource(R.drawable.logout),
+                                    contentDescription = stringResource(R.string.quit_match),
+                                )
+                            }
                         }
-                    }
-                },
-            )
-        },
-        snackbarHost = {
-            UserMessageHost(
-                userMessage = uiState.userMessage,
-                onMessageShown = onUserMessageShown,
-            )
-        },
-    ) { scaffoldPadding ->
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(scaffoldPadding)
-                    .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        ) {
-            PlayerInfo(
-                color = opponentColor,
-                isCurrentTurn = uiState.currentTurn == opponentColor,
-                isMe = false,
-                playerName = if (opponentColor == PieceColor.WHITE) uiState.whitePlayerName else uiState.blackPlayerName,
-            )
-
-            Surface(
-                modifier = Modifier,
-                shape = MaterialTheme.shapes.medium,
-                tonalElevation = 4.dp,
-                shadowElevation = 8.dp,
+                    },
+                )
+            },
+            snackbarHost = {
+                UserMessageHost(
+                    userMessage = uiState.userMessage,
+                    onMessageShown = onUserMessageShown,
+                )
+            },
+        ) { scaffoldPadding ->
+            Column(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(scaffoldPadding)
+                        .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
             ) {
-                Chessboard(
-                    selectedCell = uiState.selected,
-                    validMoves = uiState.validMoves,
-                    board = uiState.board,
-                    onCellClick = onCellClick,
-                ) { _, _, piece ->
-                    if (piece == null) return@Chessboard
-                    Piece(piece)
+                PlayerInfo(
+                    color = opponentColor,
+                    isCurrentTurn = uiState.currentTurn == opponentColor,
+                    isMe = false,
+                    playerName = if (opponentColor == PieceColor.WHITE) uiState.whitePlayerName else uiState.blackPlayerName,
+                )
+
+                Surface(
+                    modifier = Modifier,
+                    shape = MaterialTheme.shapes.medium,
+                    tonalElevation = 4.dp,
+                    shadowElevation = 8.dp,
+                ) {
+                    Chessboard(
+                        selectedCell = uiState.selected,
+                        validMoves = uiState.validMoves,
+                        board = uiState.board,
+                        onCellClick = onCellClick,
+                    ) { _, _, piece ->
+                        if (piece == null) return@Chessboard
+                        Piece(piece)
+                    }
                 }
+
+                PlayerInfo(
+                    color = myColor,
+                    isCurrentTurn = uiState.currentTurn == myColor,
+                    isMe = uiState.myColor != null,
+                    playerName = if (myColor == PieceColor.WHITE) uiState.whitePlayerName else uiState.blackPlayerName,
+                )
             }
 
-            PlayerInfo(
-                color = myColor,
-                isCurrentTurn = uiState.currentTurn == myColor,
-                isMe = uiState.myColor != null,
-                playerName = if (myColor == PieceColor.WHITE) uiState.whitePlayerName else uiState.blackPlayerName,
-            )
+            // Show game over dialog
+            if (uiState.gameStatus != MatchStatus.ONGOING) {
+                GameOverDialog(
+                    gameStatus = uiState.gameStatus,
+                    onDismiss = if (uiState.gameMode == GameMode.LOCAL) onReset else onQuit,
+                )
+            }
         }
 
-        // Show game over dialog
-        if (uiState.gameStatus != MatchStatus.ONGOING) {
-            GameOverDialog(
-                gameStatus = uiState.gameStatus,
-                onDismiss = if (uiState.gameMode == GameMode.LOCAL) onReset else onQuit,
-            )
-        }
+        LoadingOverlayHost(uiState.loadingState, Modifier.fillMaxSize())
     }
-
-    LoadingOverlayHost(uiState.loadingState, Modifier.fillMaxSize())
 }
 
 @PreviewLightDark
 @Composable
-fun ChessboardScreenPreview() {
+private fun ChessboardScreenPreview() {
     AppTheme {
         ChessboardScreen(
             uiState = ChessUiState(board = initialBoard()),
@@ -182,7 +186,7 @@ fun ChessboardScreenPreview() {
 
 @Preview
 @Composable
-fun ChessboardScreenLoadingPreview() {
+private fun ChessboardScreenLoadingPreview() {
     AppTheme {
         ChessboardScreen(
             uiState = ChessUiState(board = initialBoard(), loadingState = LoadingState.Loading),

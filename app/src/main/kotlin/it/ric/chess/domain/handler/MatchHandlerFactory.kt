@@ -11,16 +11,17 @@ interface MatchHandlerFactory {
 }
 
 @Singleton
-class DefaultMatchHandlerFactory @Inject constructor(
-    private val matchRepository: MatchRepository,
-    private val playerRepository: PlayerRepository,
-    private val authRepository: AuthRepository,
-) : MatchHandlerFactory {
-    override fun create(matchId: String?): MatchHandler {
-        return if (matchId != null) {
-            RemoteMatchHandler(matchRepository, playerRepository, matchId, authRepository.uid)
-        } else {
-            LocalMatchHandler(matchRepository)
-        }
+class DefaultMatchHandlerFactory
+    @Inject
+    constructor(
+        private val matchRepository: MatchRepository,
+        private val playerRepository: PlayerRepository,
+        private val authRepository: AuthRepository,
+    ) : MatchHandlerFactory {
+        override fun create(matchId: String?): MatchHandler =
+            if (matchId != null) {
+                RemoteMatchHandler(matchRepository, playerRepository, matchId, authRepository.uid)
+            } else {
+                LocalMatchHandler(matchRepository)
+            }
     }
-}

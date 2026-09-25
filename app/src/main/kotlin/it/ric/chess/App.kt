@@ -16,8 +16,10 @@ import it.ric.chess.navigation.Route
 import it.ric.chess.navigation.strategy.SimpleOverlaySceneStrategy
 
 @Composable
-fun App(modifier: Modifier = Modifier) {
-    val viewModel = hiltViewModel<AppViewModel>()
+fun App(
+    modifier: Modifier = Modifier,
+    viewModel: AppViewModel = hiltViewModel(),
+) {
     val navigator = viewModel.navigator
 
     val sceneStrategies: List<SceneStrategy<Route>> =

@@ -1,0 +1,7 @@
+# Handle line endings automatically; always normalize to LF in the repo.
+# Force LF on checkout even on Windows to match your script's current behavior.
+* text=auto eol=lf
+
+# Enforce Unix line endings for shell scripts
+gradlew text eol=lf
+*.sh text eol=lf

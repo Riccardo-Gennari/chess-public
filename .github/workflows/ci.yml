@@ -7,8 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
-    name: Run Unit Tests
+  check:
+    name: Run Quality Checks & Unit Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -61,5 +61,5 @@ jobs:
           }
           EOF
 
-      - name: Run Unit Tests
-        run: ./gradlew :app:testDebugUnitTest --stacktrace
+      - name: Run Quality Checks & Unit Tests
+        run: ./gradlew ktlintCheck detekt :app:testDebugUnitTest --stacktrace

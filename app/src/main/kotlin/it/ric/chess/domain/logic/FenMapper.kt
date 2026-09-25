@@ -15,35 +15,36 @@ import it.ric.chess.domain.model.emptyBoard
  * @param turn The color of the player whose turn it is.
  * @return A FEN string representing the board state.
  */
-fun Board.toFen(turn: PieceColor = PieceColor.WHITE): String = buildString {
-    // 1. Piece placement
-    for (row in 0..7) {
-        var emptyCount = 0
-        for (col in 0..7) {
-            val piece = this@toFen[row][col]
-            if (piece == null) {
-                emptyCount++
-            } else {
-                if (emptyCount > 0) {
-                    append(emptyCount)
-                    emptyCount = 0
+fun Board.toFen(turn: PieceColor = PieceColor.WHITE): String =
+    buildString {
+        // 1. Piece placement
+        for (row in 0..7) {
+            var emptyCount = 0
+            for (col in 0..7) {
+                val piece = this@toFen[row][col]
+                if (piece == null) {
+                    emptyCount++
+                } else {
+                    if (emptyCount > 0) {
+                        append(emptyCount)
+                        emptyCount = 0
+                    }
+                    append(piece.toFenChar())
                 }
-                append(piece.toFenChar())
             }
+            if (emptyCount > 0) {
+                append(emptyCount)
+            }
+            if (row < 7) append('/')
         }
-        if (emptyCount > 0) {
-            append(emptyCount)
-        }
-        if (row < 7) append('/')
+
+        // 2. Active color
+        append(" ")
+        append(if (turn == PieceColor.WHITE) "w" else "b")
+
+        // 3. Castling, 4. En passant, 5. Halfmove clock, 6. Fullmove number (simplified/placeholder)
+        append(" - - 0 1")
     }
-
-    // 2. Active color
-    append(" ")
-    append(if (turn == PieceColor.WHITE) "w" else "b")
-
-    // 3. Castling, 4. En passant, 5. Halfmove clock, 6. Fullmove number (simplified/placeholder)
-    append(" - - 0 1")
-}
 
 /**
  * Parses a FEN string into a [Board] and the current [PieceColor] turn.
@@ -53,10 +54,10 @@ fun Board.toFen(turn: PieceColor = PieceColor.WHITE): String = buildString {
  */
 fun String.toBoard(): Pair<Board, PieceColor> {
     val parts = split(" ")
-    if (parts.isEmpty()) throw IllegalArgumentException("Empty FEN string")
+    require(parts.isNotEmpty()) { "Empty FEN string" }
 
     val rows = parts[0].split("/")
-    if (rows.size != 8) throw IllegalArgumentException("FEN must have 8 rows, found ${rows.size}")
+    require(rows.size == 8) { "FEN must have 8 rows, found ${rows.size}" }
 
     val board = emptyBoard().map { it.toMutableList() }.toMutableList()
 
@@ -68,12 +69,12 @@ fun String.toBoard(): Pair<Board, PieceColor> {
                 val skip = char.digitToInt()
                 colIdx += skip
             } else {
-                if (colIdx >= 8) throw IllegalArgumentException("Row $rowIdx exceeds 8 columns")
+                require(colIdx < 8) { "Column $colIdx exceeds 8 columns" }
                 board[rowIdx][colIdx] = char.toPiece()
                 colIdx++
             }
         }
-        if (colIdx != 8) throw IllegalArgumentException("Row $rowIdx must have 8 columns, found $colIdx")
+        require(colIdx == 8) { "Row $rowIdx must have 8 columns, found $colIdx" }
     }
 
     val turn = if (parts.getOrNull(1) == "b") PieceColor.BLACK else PieceColor.WHITE

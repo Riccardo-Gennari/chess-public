@@ -5,6 +5,7 @@ import it.ric.chess.navigation.Route
 
 interface MultiplayerMenuNavigator {
     fun navigateToMatch(matchId: String)
+
     fun navigateBack()
 }
 

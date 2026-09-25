@@ -62,7 +62,7 @@ fun LoadingOverlayHost(
 
 @Preview
 @Composable
-fun LoadingOverlayHostPreview() {
+private fun LoadingOverlayHostPreview() {
     AppTheme {
         LoadingOverlayHost(isLoading = true)
     }

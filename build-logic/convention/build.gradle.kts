@@ -8,6 +8,7 @@ group = "it.ric.buildlogic"
 dependencies {
     implementation(libs.android.gradlePlugin)
     implementation(libs.kotlin.gradlePlugin)
+    implementation(libs.detekt.gradlePlugin)
     implementation(libs.ktlint.gradlePlugin)
 }
 

@@ -5,7 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed interface Route : NavKey {
-    data class Chessboard(val matchId: String? = null) : Route
+    data class Chessboard(
+        val matchId: String? = null,
+    ) : Route
 
     class Menu : Route
 

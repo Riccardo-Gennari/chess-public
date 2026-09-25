@@ -61,7 +61,16 @@ class Firebase(
             awaitClose { auth.removeAuthStateListener(listener) }
         }
 
-    fun generateId(path: String): String = database.getReference(path).push().key ?: throw IllegalStateException("Failed to generate ID")
+    fun generateId(path: String): String {
+        val key = database
+            .getReference(path)
+            .push()
+            .key
+
+        requireNotNull(key) { "Failed to generate ID for path: ${android.R.attr.path}" }
+
+        return key
+    }
 
     suspend fun <T> setValue(
         path: String,

@@ -50,7 +50,14 @@ fun PlayerInfo(
     val label =
         when {
             isMe -> if (color == PieceColor.WHITE) stringResource(R.string.white_you) else stringResource(R.string.black_you)
-            else -> if (color == PieceColor.WHITE) stringResource(R.string.white_player) else stringResource(R.string.black_player)
+
+            else -> if (color ==
+                PieceColor.WHITE
+            ) {
+                stringResource(R.string.white_player)
+            } else {
+                stringResource(R.string.black_player)
+            }
         }
 
     Surface(

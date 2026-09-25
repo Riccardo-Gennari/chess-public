@@ -71,17 +71,18 @@ class MultiplayerMenuViewModelTest :
             )
         }
 
-        fun setupViewModel(mocks: Mocks) = MultiplayerMenuViewModel(
-            log = mocks.log,
-            authRepository = mocks.authRepo,
-            signInWithPlayGamesUseCase = mocks.signInUseCase,
-            observeActiveMatchesUseCase = mocks.observeActiveUseCase,
-            observeWaitingMatchesUseCase = mocks.observeWaitingUseCase,
-            createMatchUseCase = mocks.createMatchUseCase,
-            joinMatchUseCase = mocks.joinMatchUseCase,
-            navigator = mocks.nav,
-            sharingStarted = SharingStarted.Eagerly,
-        )
+        fun setupViewModel(mocks: Mocks) =
+            MultiplayerMenuViewModel(
+                log = mocks.log,
+                authRepository = mocks.authRepo,
+                signInWithPlayGamesUseCase = mocks.signInUseCase,
+                observeActiveMatchesUseCase = mocks.observeActiveUseCase,
+                observeWaitingMatchesUseCase = mocks.observeWaitingUseCase,
+                createMatchUseCase = mocks.createMatchUseCase,
+                joinMatchUseCase = mocks.joinMatchUseCase,
+                navigator = mocks.nav,
+                sharingStarted = SharingStarted.Eagerly,
+            )
 
         test("init should sign in if not authenticated") {
             val mocks = setupMocks()

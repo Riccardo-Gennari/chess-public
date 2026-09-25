@@ -14,5 +14,7 @@ typealias Piece = Piece
 typealias Board = Board
 
 fun Board.copy(): Board = domainCopy()
+
 fun emptyBoard(): Board = domainEmptyBoard()
+
 fun initialBoard(): Board = domainInitialBoard()

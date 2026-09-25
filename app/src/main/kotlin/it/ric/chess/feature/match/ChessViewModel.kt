@@ -99,7 +99,9 @@ class ChessViewModel
                 val piece = state.board[row][col] ?: return@combine emptySet()
 
                 // In multiplayer, only calculate moves if it's the player's turn
-                if (matchHandler.gameMode == GameMode.REMOTE && state.playerColor != null && piece.color != state.playerColor) {
+                if (matchHandler.gameMode == GameMode.REMOTE && state.playerColor != null &&
+                    piece.color != state.playerColor
+                ) {
                     return@combine emptySet()
                 }
 
@@ -124,10 +126,22 @@ class ChessViewModel
                     myColor = state.playerColor,
                     whitePlayerName =
                         state.whitePlayerName
-                            ?: if (state.playerColor == PieceColor.WHITE || matchHandler.gameMode == GameMode.LOCAL) playerName else null,
+                            ?: if (state.playerColor == PieceColor.WHITE ||
+                                matchHandler.gameMode == GameMode.LOCAL
+                            ) {
+                                playerName
+                            } else {
+                                null
+                            },
                     blackPlayerName =
                         state.blackPlayerName
-                            ?: if (state.playerColor == PieceColor.BLACK || matchHandler.gameMode == GameMode.LOCAL) playerName else null,
+                            ?: if (state.playerColor == PieceColor.BLACK ||
+                                matchHandler.gameMode == GameMode.LOCAL
+                            ) {
+                                playerName
+                            } else {
+                                null
+                            },
                     gameMode = matchHandler.gameMode,
                     loadingState = viewModelLoadingState,
                     userMessage = userMessage,

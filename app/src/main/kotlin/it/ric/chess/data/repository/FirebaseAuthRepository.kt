@@ -17,52 +17,54 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Named
 
-class FirebaseAuthRepository @Inject constructor(
-    dataStore: DataStore,
-    private val firebase: Firebase,
-    private val playGamesDataSource: PlayGamesDataSource,
-    log: Logger,
-    @Named("webClientId") private val webClientId: String,
-) : AuthRepository {
-    override val uid: String? get() = firebase.uid
-    override val authUser: Flow<AuthUser?> = firebase.observeAuthState()
-    private val log = log.withFixedTag(tag)
+class FirebaseAuthRepository
+    @Inject
+    constructor(
+        dataStore: DataStore,
+        private val firebase: Firebase,
+        private val playGamesDataSource: PlayGamesDataSource,
+        log: Logger,
+        @Named("webClientId") private val webClientId: String,
+    ) : AuthRepository {
+        override val uid: String? get() = firebase.uid
+        override val authUser: Flow<AuthUser?> = firebase.observeAuthState()
+        private val log = log.withFixedTag(tag)
 
-    private val _isPlayGamesAuthAvailable = dataStore.persistentData(skipAuthKey)
-    override val isPlayGamesAuthAvailable = _isPlayGamesAuthAvailable.map { it ?: true }
+        private val _isPlayGamesAuthAvailable = dataStore.persistentData(skipAuthKey)
+        override val isPlayGamesAuthAvailable = _isPlayGamesAuthAvailable.map { it ?: true }
 
-    override suspend fun signInWithPlayGames() {
-        try {
-            val serverAuthCode = playGamesDataSource.getAuthCode(webClientId)
-            if (serverAuthCode != null) {
-                val credential = PlayGamesAuthProvider.getCredential(serverAuthCode)
-                firebase.signInWithCredential(credential)
-                log.debug("Signed in with Play Games: $uid")
-                _isPlayGamesAuthAvailable.set(false)
-            } else {
-                _isPlayGamesAuthAvailable.set(true)
+        override suspend fun signInWithPlayGames() {
+            try {
+                val serverAuthCode = playGamesDataSource.getAuthCode(webClientId)
+                if (serverAuthCode != null) {
+                    val credential = PlayGamesAuthProvider.getCredential(serverAuthCode)
+                    firebase.signInWithCredential(credential)
+                    log.debug("Signed in with Play Games: $uid")
+                    _isPlayGamesAuthAvailable.set(false)
+                } else {
+                    _isPlayGamesAuthAvailable.set(true)
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                log.debug("Failed to sign in with Play Games", e)
             }
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            log.debug("Failed to sign in with Play Games", e)
+        }
+
+        override suspend fun signOutFromPlayGames() {
+            try {
+                playGamesDataSource.signOut()
+                _isPlayGamesAuthAvailable.set(false)
+                firebase.signOut()
+                log.debug("Signed out from Play Games and Firebase")
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                log.error("Failed to sign out from Play Games", e)
+            }
+        }
+
+        companion object {
+            val skipAuthKey = booleanDataKey("skipPlayGamesAuth")
         }
     }
-
-    override suspend fun signOutFromPlayGames() {
-        try {
-            playGamesDataSource.signOut()
-            _isPlayGamesAuthAvailable.set(false)
-            firebase.signOut()
-            log.debug("Signed out from Play Games and Firebase")
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            log.error("Failed to sign out from Play Games", e)
-        }
-    }
-
-    companion object {
-        val skipAuthKey = booleanDataKey("skipPlayGamesAuth")
-    }
-}

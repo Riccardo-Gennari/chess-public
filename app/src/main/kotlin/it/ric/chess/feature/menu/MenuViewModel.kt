@@ -23,19 +23,19 @@ class MenuViewModel
         private val navigator: MenuNavigator,
         sharingStarted: SharingStarted = SharingStarted.WhileSubscribed(5_000),
     ) : BaseViewModel(log) {
-
         private val playerInfo =
             getAuthenticatedPlayerUseCase()
                 .stateIn(scope, sharingStarted, PlayerInfo.anonymous)
 
         val uiState =
-            playerInfo.map { player ->
-                MenuUiState(
-                    isSignedIn = player.playerId.isNotEmpty(),
-                    playerInfo = player,
-                    loadingState = viewModelLoadingState,
-                )
-            }.stateIn(scope, sharingStarted, MenuUiState())
+            playerInfo
+                .map { player ->
+                    MenuUiState(
+                        isSignedIn = player.playerId.isNotEmpty(),
+                        playerInfo = player,
+                        loadingState = viewModelLoadingState,
+                    )
+                }.stateIn(scope, sharingStarted, MenuUiState())
 
         fun onSelectSinglePlayer() {
             navigator.navigateToSinglePlayer()

@@ -10,18 +10,20 @@ import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class GetAuthenticatedPlayerUseCase @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val playerRepository: PlayerRepository,
-) {
-    operator fun invoke(): Flow<PlayerInfo> =
-        authRepository.authUser
-            .distinctUntilChanged()
-            .mapLatest { user ->
-                if (user != null) {
-                    playerRepository.getCurrentPlayerInfo() ?: PlayerInfo.anonymous
-                } else {
-                    PlayerInfo.anonymous
+class GetAuthenticatedPlayerUseCase
+    @Inject
+    constructor(
+        private val authRepository: AuthRepository,
+        private val playerRepository: PlayerRepository,
+    ) {
+        operator fun invoke(): Flow<PlayerInfo> =
+            authRepository.authUser
+                .distinctUntilChanged()
+                .mapLatest { user ->
+                    if (user != null) {
+                        playerRepository.getCurrentPlayerInfo() ?: PlayerInfo.anonymous
+                    } else {
+                        PlayerInfo.anonymous
+                    }
                 }
-            }
-}
+    }
