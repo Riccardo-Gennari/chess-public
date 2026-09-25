@@ -7,7 +7,9 @@ import it.ric.chess.navigation.Nav3Navigator
 import javax.inject.Inject
 
 @HiltViewModel
-class AppViewModel @Inject constructor(
-    val navigator: Nav3Navigator,
-    val entryProviderInstallers: Set<@JvmSuppressWildcards EntryProviderInstaller>,
-) : ViewModel()
+class AppViewModel
+    @Inject
+    constructor(
+        val navigator: Nav3Navigator,
+        val entryProviderInstallers: Set<@JvmSuppressWildcards EntryProviderInstaller>,
+    ) : ViewModel()

@@ -68,7 +68,8 @@ interface Navigator : ResultEmitter {
 
                 override fun push(route: Route) {}
 
-                override suspend fun <R> pushAndAwaitResult(route: RouteWithResult<R>): R = throw UnsupportedOperationException()
+                override suspend fun <R> pushAndAwaitResult(route: RouteWithResult<R>): R =
+                    throw UnsupportedOperationException()
 
                 override fun <R> emitResult(
                     route: RouteWithResult<R>,

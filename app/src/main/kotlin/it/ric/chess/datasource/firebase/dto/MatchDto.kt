@@ -15,7 +15,7 @@ data class MatchDto(
     @get:PropertyName(FIELD_BLACK_PGS) @set:PropertyName(FIELD_BLACK_PGS) var blackPgsId: String? = null,
     @get:PropertyName(FIELD_FEN) @set:PropertyName(FIELD_FEN) var fen: String = "",
     @get:PropertyName(FIELD_STATUS) @set:PropertyName(FIELD_STATUS) var status: Int = 0,
-    @get:PropertyName(FIELD_TIMESTAMP) @set:PropertyName(FIELD_TIMESTAMP) var timestamp: Long = 0
+    @get:PropertyName(FIELD_TIMESTAMP) @set:PropertyName(FIELD_TIMESTAMP) var timestamp: Long = 0,
 ) {
     companion object {
         const val FIELD_ID = "id"

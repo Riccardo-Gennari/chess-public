@@ -1,6 +1,7 @@
 package it.ric.chess.feature.multiplayer
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -98,68 +99,78 @@ fun MultiplayerMenuScreen(
         )
     }
 
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.multi_player)) },
-                navigationIcon = { BackButton(onBack) },
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { showCreateDialog = true }) {
-                Text("+", style = MaterialTheme.typography.headlineSmall)
-            }
-        },
-    ) { padding ->
-        if (uiState.waitingMatches.isEmpty() && uiState.activeMatches.isEmpty()) {
-            Column(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(padding),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Text(stringResource(R.string.no_matches), style = MaterialTheme.typography.bodyLarge)
-            }
-        } else {
-            LazyColumn(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .padding(padding),
-            ) {
-                if (uiState.activeMatches.isNotEmpty()) {
-                    item {
-                        Text(
-                            text = stringResource(R.string.my_active_matches),
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(16.dp),
-                        )
-                    }
-                    items(uiState.activeMatches) { match ->
-                        MatchItem(match, buttonText = stringResource(R.string.continue_button)) { onJoinMatch(match.id) }
-                    }
+    Box(modifier = modifier) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                TopAppBar(
+                    title = { Text(stringResource(R.string.multi_player)) },
+                    navigationIcon = { BackButton(onBack) },
+                )
+            },
+            floatingActionButton = {
+                FloatingActionButton(onClick = { showCreateDialog = true }) {
+                    Text("+", style = MaterialTheme.typography.headlineSmall)
                 }
-
-                if (uiState.waitingMatches.isNotEmpty()) {
-                    item {
-                        Text(
-                            text = stringResource(R.string.waiting_matches),
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(16.dp),
-                        )
+            },
+        ) { padding ->
+            if (uiState.waitingMatches.isEmpty() && uiState.activeMatches.isEmpty()) {
+                Column(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(stringResource(R.string.no_matches), style = MaterialTheme.typography.bodyLarge)
+                }
+            } else {
+                LazyColumn(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(padding),
+                ) {
+                    if (uiState.activeMatches.isNotEmpty()) {
+                        item {
+                            Text(
+                                text = stringResource(R.string.my_active_matches),
+                                style = MaterialTheme.typography.titleMedium,
+                                modifier = Modifier.padding(16.dp),
+                            )
+                        }
+                        items(uiState.activeMatches) { match ->
+                            MatchItem(
+                                match,
+                                buttonText = stringResource(R.string.continue_button),
+                                onJoin = { onJoinMatch(match.id) },
+                            )
+                        }
                     }
-                    items(uiState.waitingMatches) { match ->
-                        MatchItem(match, buttonText = stringResource(R.string.join_match)) { onJoinMatch(match.id) }
+
+                    if (uiState.waitingMatches.isNotEmpty()) {
+                        item {
+                            Text(
+                                text = stringResource(R.string.waiting_matches),
+                                style = MaterialTheme.typography.titleMedium,
+                                modifier = Modifier.padding(16.dp),
+                            )
+                        }
+                        items(uiState.waitingMatches) { match ->
+                            MatchItem(
+                                match,
+                                buttonText = stringResource(R.string.join_match),
+                                onJoin = { onJoinMatch(match.id) },
+                            )
+                        }
                     }
                 }
             }
         }
-    }
 
-    LoadingOverlayHost(uiState.loadingState, Modifier.fillMaxSize())
+        LoadingOverlayHost(uiState.loadingState, Modifier.fillMaxSize())
+    }
 }
 
 @Composable
@@ -167,10 +178,11 @@ fun MatchItem(
     match: Match,
     buttonText: String,
     onJoin: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier =
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .padding(8.dp),
     ) {

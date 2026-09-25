@@ -61,7 +61,11 @@ class ChessViewModelTest :
             )
         }
 
-        fun mockHandler(board: Board = initialBoard(), turn: PieceColor = PieceColor.WHITE, status: MatchStatus = MatchStatus.ONGOING): MatchHandler =
+        fun mockHandler(
+            board: Board = initialBoard(),
+            turn: PieceColor = PieceColor.WHITE,
+            status: MatchStatus = MatchStatus.ONGOING,
+        ): MatchHandler =
             mockk(relaxed = true) {
                 every { observeState() } returns
                     MutableStateFlow(

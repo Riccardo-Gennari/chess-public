@@ -228,7 +228,14 @@ object ChessRules {
             }
         }
 
-    fun getNextTurn(currentTurn: PieceColor): PieceColor = if (currentTurn == PieceColor.WHITE) PieceColor.BLACK else PieceColor.WHITE
+    fun getNextTurn(currentTurn: PieceColor): PieceColor =
+        if (currentTurn ==
+            PieceColor.WHITE
+        ) {
+            PieceColor.BLACK
+        } else {
+            PieceColor.WHITE
+        }
 
     /**
      * Finds the King position for a given color.
@@ -250,6 +257,7 @@ object ChessRules {
      * Optimized check detection.
      * Checks if the King of the specified [color] is under attack.
      */
+    @Suppress("ReturnCount")
     fun isCheck(
         board: Board,
         color: PieceColor,
@@ -351,8 +359,16 @@ object ChessRules {
         val movesAvailable = hasLegalMoves(board, currentTurn)
 
         return when {
-            !movesAvailable && check -> if (currentTurn == PieceColor.WHITE) MatchStatus.BLACK_WINS else MatchStatus.WHITE_WINS
+            !movesAvailable && check -> if (currentTurn ==
+                PieceColor.WHITE
+            ) {
+                MatchStatus.BLACK_WINS
+            } else {
+                MatchStatus.WHITE_WINS
+            }
+
             !movesAvailable && !check -> MatchStatus.DRAW
+
             else -> MatchStatus.ONGOING
         }
     }

@@ -17,8 +17,16 @@ data class MatchStateUpdate(
 
 interface MatchHandler {
     val gameMode: GameMode
+
     fun observeState(): Flow<MatchStateUpdate>
-    suspend fun onMove(nextBoard: Board, nextTurn: PieceColor, nextStatus: MatchStatus)
+
+    suspend fun onMove(
+        nextBoard: Board,
+        nextTurn: PieceColor,
+        nextStatus: MatchStatus,
+    )
+
     suspend fun onReset()
+
     suspend fun onQuit()
 }

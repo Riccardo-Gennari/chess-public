@@ -12,7 +12,8 @@ import it.ric.chess.navigation.EntryProviderInstaller
 object ChessboardNavigationModule {
     @Provides
     @IntoSet
-    fun provideChessboardEntry(): EntryProviderInstaller = {
-        chessboard()
-    }
+    fun provideChessboardEntry(): EntryProviderInstaller =
+        {
+            chessboard()
+        }
 }

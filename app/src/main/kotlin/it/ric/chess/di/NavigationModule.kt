@@ -19,7 +19,8 @@ object NavigationModule {
     fun provideMenuNavigator(navigator: Navigator): MenuNavigator = navigator.menuNavigator()
 
     @Provides
-    fun provideMultiplayerMenuNavigator(navigator: Navigator): MultiplayerMenuNavigator = navigator.multiplayerMenuNavigator()
+    fun provideMultiplayerMenuNavigator(navigator: Navigator): MultiplayerMenuNavigator =
+        navigator.multiplayerMenuNavigator()
 
     @Provides
     fun provideChessboardNavigator(navigator: Navigator): ChessboardNavigator = navigator.chessboardNavigator()

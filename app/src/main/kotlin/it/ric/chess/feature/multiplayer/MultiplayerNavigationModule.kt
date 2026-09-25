@@ -12,7 +12,8 @@ import it.ric.chess.navigation.EntryProviderInstaller
 object MultiplayerNavigationModule {
     @Provides
     @IntoSet
-    fun provideMultiplayerMenuEntry(): EntryProviderInstaller = {
-        multiplayerMenu()
-    }
+    fun provideMultiplayerMenuEntry(): EntryProviderInstaller =
+        {
+            multiplayerMenu()
+        }
 }

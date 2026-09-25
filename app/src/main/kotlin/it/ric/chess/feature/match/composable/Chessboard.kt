@@ -35,6 +35,7 @@ fun Chessboard(
     onCellClick: (row: Int, col: Int) -> Unit = { _, _ -> },
     pieceContent: @Composable (row: Int, col: Int, piece: Piece?) -> Unit = { _, _, _ -> },
 ) {
+    val colors = MaterialTheme.colorScheme
     Column(modifier = modifier.aspectRatio(1f)) {
         for (row in 0 until 8) {
             Row(modifier = Modifier.weight(1f).fillMaxWidth()) {
@@ -48,12 +49,13 @@ fun Chessboard(
                             Modifier
                                 .weight(1f)
                                 .fillMaxHeight()
-                                .background(if (isLight) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.primary)
-                                .then(
+                                .background(
+                                    if (isLight) colors.primaryContainer else colors.primary,
+                                ).then(
                                     if (isSelected) {
-                                        Modifier.background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f))
+                                        Modifier.background(colors.secondaryContainer.copy(alpha = 0.6f))
                                     } else if (isValidMove) {
-                                        Modifier.background(MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.6f))
+                                        Modifier.background(colors.tertiaryContainer.copy(alpha = 0.6f))
                                     } else {
                                         Modifier
                                     },

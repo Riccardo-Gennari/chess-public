@@ -10,16 +10,18 @@ import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ObserveActiveMatchesUseCase @Inject constructor(
-    private val matchRepository: MatchRepository,
-    private val authRepository: AuthRepository,
-) {
-    operator fun invoke(): Flow<List<Match>> =
-        authRepository.authUser.flatMapLatest { user ->
-            if (user != null) {
-                matchRepository.observeMyMatches(user.uid)
-            } else {
-                flowOf(emptyList())
+class ObserveActiveMatchesUseCase
+    @Inject
+    constructor(
+        private val matchRepository: MatchRepository,
+        private val authRepository: AuthRepository,
+    ) {
+        operator fun invoke(): Flow<List<Match>> =
+            authRepository.authUser.flatMapLatest { user ->
+                if (user != null) {
+                    matchRepository.observeMyMatches(user.uid)
+                } else {
+                    flowOf(emptyList())
+                }
             }
-        }
-}
+    }

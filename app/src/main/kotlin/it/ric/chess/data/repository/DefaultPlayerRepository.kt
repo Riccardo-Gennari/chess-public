@@ -8,10 +8,12 @@ import javax.inject.Inject
 /**
  * Implementation of [PlayerRepository] using [PlayGamesDataSource].
  */
-class DefaultPlayerRepository @Inject constructor(
-    private val dataSource: PlayGamesDataSource,
-) : PlayerRepository {
-    override suspend fun getCurrentPlayerInfo(): PlayerInfo? = dataSource.getPlayerInfo()
+class DefaultPlayerRepository
+    @Inject
+    constructor(
+        private val dataSource: PlayGamesDataSource,
+    ) : PlayerRepository {
+        override suspend fun getCurrentPlayerInfo(): PlayerInfo? = dataSource.getPlayerInfo()
 
-    override suspend fun getPlayerInfo(playerId: String): PlayerInfo? = dataSource.getPlayerInfo(playerId)
-}
+        override suspend fun getPlayerInfo(playerId: String): PlayerInfo? = dataSource.getPlayerInfo(playerId)
+    }
