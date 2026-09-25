@@ -16,10 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import it.ric.chess.core.composable.AppTheme
-import it.ric.chess.feature.match.model.Board
-import it.ric.chess.feature.match.model.Piece
-import it.ric.chess.feature.match.model.emptyBoard
-import it.ric.chess.feature.match.model.initialBoard
+import it.ric.chess.domain.model.Board
+import it.ric.chess.domain.model.Piece
+import it.ric.chess.domain.model.emptyBoard
+import it.ric.chess.domain.model.initialBoard
 
 /**
  * Simple 8x8 chessboard with alternating light/dark cells.

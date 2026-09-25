@@ -34,13 +34,13 @@ import it.ric.chess.core.composable.UserMessageHost
 import it.ric.chess.core.viewmodel.LoadingState
 import it.ric.chess.domain.model.GameMode
 import it.ric.chess.domain.model.MatchStatus
+import it.ric.chess.domain.model.PieceColor
+import it.ric.chess.domain.model.initialBoard
 import it.ric.chess.feature.match.composable.Chessboard
 import it.ric.chess.feature.match.composable.GameOverDialog
 import it.ric.chess.feature.match.composable.Piece
 import it.ric.chess.feature.match.composable.PlayerInfo
 import it.ric.chess.feature.match.model.ChessUiState
-import it.ric.chess.feature.match.model.PieceColor
-import it.ric.chess.feature.match.model.initialBoard
 import it.ric.chess.navigation.Route
 
 fun EntryProviderScope<Route>.chessboard() {
