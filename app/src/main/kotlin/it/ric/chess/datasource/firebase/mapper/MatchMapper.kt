@@ -1,8 +1,8 @@
 package it.ric.chess.datasource.firebase.mapper
 
-import it.ric.chess.core.model.Match
-import it.ric.chess.core.model.MatchStatus
 import it.ric.chess.datasource.firebase.dto.MatchDto
+import it.ric.chess.domain.model.Match
+import it.ric.chess.domain.model.MatchStatus
 
 fun MatchDto.toDomain(): Match =
     Match(
