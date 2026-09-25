@@ -13,7 +13,7 @@ import com.google.firebase.database.database
 import it.ric.chess.core.log.Logger
 import it.ric.chess.core.log.tag
 import it.ric.chess.core.log.withFixedTag
-import it.ric.chess.core.model.AuthUser
+import it.ric.chess.domain.model.AuthUser
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
