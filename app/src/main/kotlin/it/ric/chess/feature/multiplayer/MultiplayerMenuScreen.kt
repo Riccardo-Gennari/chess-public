@@ -34,7 +34,7 @@ import androidx.navigation3.runtime.EntryProviderScope
 import it.ric.chess.R
 import it.ric.chess.core.composable.BackButton
 import it.ric.chess.core.composable.LoadingOverlayHost
-import it.ric.chess.core.model.Match
+import it.ric.chess.domain.model.Match
 import it.ric.chess.navigation.Route
 
 fun EntryProviderScope<Route>.multiplayerMenu() {
