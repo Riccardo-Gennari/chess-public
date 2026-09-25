@@ -12,6 +12,7 @@
         <list>
           <option value="ktlintCheck" />
           <option value="detekt" />
+          <option value="lintDebug" />
           <option value="testDebugUnitTest" />
         </list>
       </option>

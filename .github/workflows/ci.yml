@@ -62,4 +62,4 @@ jobs:
           EOF
 
       - name: Run Quality Checks & Unit Tests
-        run: ./gradlew ktlintCheck detekt :app:testDebugUnitTest --stacktrace
+        run: ./gradlew ktlintCheck detekt lintDebug :app:testDebugUnitTest --stacktrace
