@@ -36,7 +36,7 @@ class SimpleOverlaySceneStrategy<T : Any> : SceneStrategy<T> {
     }
 }
 
-internal class SimpleOverlayScene<T : Any>(
+internal data class SimpleOverlayScene<T : Any>(
     override val key: T,
     override val previousEntries: List<NavEntry<T>>,
     override val overlaidEntries: List<NavEntry<T>>,
