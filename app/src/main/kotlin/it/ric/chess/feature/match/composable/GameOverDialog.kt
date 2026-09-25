@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import it.ric.chess.R
-import it.ric.chess.core.model.MatchStatus
+import it.ric.chess.domain.model.MatchStatus
 
 @Composable
 fun GameOverDialog(

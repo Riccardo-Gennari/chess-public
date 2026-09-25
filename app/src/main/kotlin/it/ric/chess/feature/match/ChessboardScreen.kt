@@ -30,9 +30,9 @@ import it.ric.chess.core.composable.AppTheme
 import it.ric.chess.core.composable.BackButton
 import it.ric.chess.core.composable.LoadingOverlayHost
 import it.ric.chess.core.composable.UserMessageHost
-import it.ric.chess.core.model.GameMode
-import it.ric.chess.core.model.MatchStatus
 import it.ric.chess.core.viewmodel.LoadingState
+import it.ric.chess.domain.model.GameMode
+import it.ric.chess.domain.model.MatchStatus
 import it.ric.chess.feature.match.composable.Chessboard
 import it.ric.chess.feature.match.composable.GameOverDialog
 import it.ric.chess.feature.match.composable.Piece
