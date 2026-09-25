@@ -1,10 +1,12 @@
 package it.ric.chess.feature.match.model
 
 import androidx.compose.runtime.Immutable
-import it.ric.chess.core.model.GameMode
-import it.ric.chess.core.model.MatchStatus
 import it.ric.chess.core.util.UiText
 import it.ric.chess.core.viewmodel.LoadingState
+import it.ric.chess.domain.model.Board
+import it.ric.chess.domain.model.GameMode
+import it.ric.chess.domain.model.MatchStatus
+import it.ric.chess.domain.model.PieceColor
 
 /**
  * UI state for the chess screen.

@@ -1,8 +1,8 @@
 package it.ric.chess.feature.multiplayer
 
 import androidx.compose.runtime.Immutable
-import it.ric.chess.core.model.Match
 import it.ric.chess.core.viewmodel.LoadingState
+import it.ric.chess.domain.model.Match
 
 @Immutable
 data class MultiplayerMenuUiState(

@@ -7,30 +7,27 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.ric.chess.R
 import it.ric.chess.core.log.Logger
-import it.ric.chess.core.model.GameMode
-import it.ric.chess.core.model.MatchStatus
 import it.ric.chess.core.util.UiText
 import it.ric.chess.core.viewmodel.BaseViewModel
-import it.ric.chess.feature.match.logic.ChessRules
-import it.ric.chess.feature.match.logic.MatchHandler
-import it.ric.chess.feature.match.logic.MatchHandlerFactory
-import it.ric.chess.feature.match.model.Board
+import it.ric.chess.domain.handler.MatchHandler
+import it.ric.chess.domain.handler.MatchHandlerFactory
+import it.ric.chess.domain.model.Board
+import it.ric.chess.domain.model.GameMode
+import it.ric.chess.domain.model.MatchStatus
+import it.ric.chess.domain.model.PieceColor
+import it.ric.chess.domain.model.copy
+import it.ric.chess.domain.model.initialBoard
+import it.ric.chess.domain.usecase.auth.GetAuthenticatedPlayerUseCase
+import it.ric.chess.domain.usecase.match.CalculateValidMovesUseCase
+import it.ric.chess.domain.usecase.match.ExecuteMoveUseCase
 import it.ric.chess.feature.match.model.ChessUiState
 import it.ric.chess.feature.match.model.ChessboardNavigator
-import it.ric.chess.feature.match.model.PieceColor
-import it.ric.chess.feature.match.model.copy
-import it.ric.chess.feature.match.model.initialBoard
-import it.ric.chess.repository.AuthRepository
-import it.ric.chess.repository.PlayerRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
 
 /**
@@ -42,8 +39,9 @@ class ChessViewModel
     constructor(
         log: Logger,
         private val navigator: ChessboardNavigator,
-        authRepository: AuthRepository,
-        private val playerRepository: PlayerRepository,
+        getAuthenticatedPlayerUseCase: GetAuthenticatedPlayerUseCase,
+        private val calculateValidMovesUseCase: CalculateValidMovesUseCase,
+        private val executeMoveUseCase: ExecuteMoveUseCase,
         matchHandlerFactory: MatchHandlerFactory,
         @Assisted private val matchId: String?,
         sharingStarted: SharingStarted = SharingStarted.WhileSubscribed(5_000),
@@ -88,17 +86,10 @@ class ChessViewModel
         private val selectedFlow = MutableStateFlow<Pair<Int, Int>?>(null)
         private val userMessageFlow = MutableStateFlow<UiText?>(null)
 
-        @OptIn(ExperimentalCoroutinesApi::class)
         private val playerNameFlow =
-            authRepository.authUser
-                .distinctUntilChanged()
-                .mapLatest { user ->
-                    if (user != null) {
-                        playerRepository.getCurrentPlayerInfo()?.displayName
-                    } else {
-                        null
-                    }
-                }.stateIn(scope, sharingStarted, null)
+            getAuthenticatedPlayerUseCase()
+                .map { it.displayName }
+                .stateIn(scope, sharingStarted, null)
 
         // Derived valid moves based on current board and selection
         private val validMovesFlow: StateFlow<Set<Pair<Int, Int>>> =
@@ -112,7 +103,7 @@ class ChessViewModel
                     return@combine emptySet()
                 }
 
-                ChessRules.calculateValidMoves(state.board, row, col, piece)
+                calculateValidMovesUseCase(state.board, row, col, piece)
             }.stateIn(scope, sharingStarted, emptySet())
 
         // Final UI state derived from all source flows
@@ -240,14 +231,12 @@ class ChessViewModel
                 return
             }
 
-            // Perform move and update state
-            val nextBoard = ChessRules.performMove(board, fromRow, fromCol, toRow, toCol, piece)
-            val nextTurn = ChessRules.getNextTurn(turn)
-            val nextStatus = ChessRules.determineGameStatus(nextBoard, nextTurn)
+            // Perform move and update state via Use Case
+            val moveResult = executeMoveUseCase(board, fromRow, fromCol, toRow, toCol, piece, turn)
 
             scope.launchWhileLoadingIfIdle {
                 try {
-                    matchHandler.onMove(nextBoard, nextTurn, nextStatus)
+                    matchHandler.onMove(moveResult.nextBoard, moveResult.nextTurn, moveResult.nextStatus)
                 } catch (e: Exception) {
                     viewModelLog.error("Failed to update move", e)
                 }
