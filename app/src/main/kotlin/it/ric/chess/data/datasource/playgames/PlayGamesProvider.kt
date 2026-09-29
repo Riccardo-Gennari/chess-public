@@ -1,4 +1,4 @@
-package it.ric.chess.datasource.playgames
+package it.ric.chess.data.datasource.playgames
 
 import it.ric.chess.domain.model.PlayerInfo
 

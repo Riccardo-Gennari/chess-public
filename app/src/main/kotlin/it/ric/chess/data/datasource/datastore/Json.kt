@@ -1,4 +1,4 @@
-package it.ric.chess.datasource.datastore
+package it.ric.chess.data.datasource.datastore
 
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerializationStrategy

@@ -1,4 +1,4 @@
-package it.ric.chess.datasource.datastore
+package it.ric.chess.data.datasource.datastore
 
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -13,7 +13,7 @@ import androidx.datastore.core.DataStore as AndroidXDataStore
 
 /**
  * A wrapper around AndroidX [DataStore] that provides type-safe access to persistent preferences.
- * It uses [it.ric.chess.datasource.datastore.DataKey]s to handle encoding and decoding of different data types (e.g., JSON, Strings).
+ * It uses [it.ric.chess.data.datasource.datastore.DataKey]s to handle encoding and decoding of different data types (e.g., JSON, Strings).
  *
  * @param log The [Logger] used for tracking errors during encoding/decoding or I/O.
  * @param internalDataStore The underlying AndroidX [Preferences] [DataStore] implementation.

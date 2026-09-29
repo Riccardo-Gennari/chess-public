@@ -1,4 +1,4 @@
-package it.ric.chess.datasource.playgames
+package it.ric.chess.data.datasource.playgames
 
 import android.app.Activity
 import com.google.android.gms.common.api.ApiException

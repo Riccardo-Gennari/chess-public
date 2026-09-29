@@ -1,4 +1,4 @@
-package it.ric.chess.datasource.firebase
+package it.ric.chess.data.datasource.firebase
 
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth

@@ -1,6 +1,6 @@
-package it.ric.chess.datasource.firebase.mapper
+package it.ric.chess.data.datasource.firebase.mapper
 
-import it.ric.chess.datasource.firebase.dto.MatchDto
+import it.ric.chess.data.datasource.firebase.dto.MatchDto
 import it.ric.chess.domain.model.Match
 import it.ric.chess.domain.model.MatchStatus
 

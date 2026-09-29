@@ -2,13 +2,13 @@ package it.ric.chess.data.repository
 
 import com.google.firebase.database.getValue
 import it.ric.chess.core.time.TimeProvider
-import it.ric.chess.datasource.datastore.UserPreferencesDataSource
-import it.ric.chess.datasource.firebase.Firebase
-import it.ric.chess.datasource.firebase.dto.MatchDto
-import it.ric.chess.datasource.firebase.mapper.createJoinBlackUpdate
-import it.ric.chess.datasource.firebase.mapper.createMoveUpdate
-import it.ric.chess.datasource.firebase.mapper.toDomain
-import it.ric.chess.datasource.firebase.mapper.toDto
+import it.ric.chess.data.datasource.datastore.UserPreferencesDataSource
+import it.ric.chess.data.datasource.firebase.Firebase
+import it.ric.chess.data.datasource.firebase.dto.MatchDto
+import it.ric.chess.data.datasource.firebase.mapper.createJoinBlackUpdate
+import it.ric.chess.data.datasource.firebase.mapper.createMoveUpdate
+import it.ric.chess.data.datasource.firebase.mapper.toDomain
+import it.ric.chess.data.datasource.firebase.mapper.toDto
 import it.ric.chess.domain.model.Match
 import it.ric.chess.domain.model.MatchStatus
 import it.ric.chess.domain.repository.MatchRepository
