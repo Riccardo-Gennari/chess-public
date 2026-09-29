@@ -20,6 +20,7 @@ import it.ric.chess.domain.model.initialBoard
 import it.ric.chess.domain.usecase.auth.GetAuthenticatedPlayerUseCase
 import it.ric.chess.domain.usecase.match.CalculateValidMovesUseCase
 import it.ric.chess.domain.usecase.match.ExecuteMoveUseCase
+import it.ric.chess.domain.usecase.match.ResolvePlayerNameUseCase
 import it.ric.chess.feature.match.model.ChessboardNavigator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,6 +47,7 @@ class ChessViewModelTest :
             }
             val mockCalculateValidMovesUseCase = CalculateValidMovesUseCase()
             val mockExecuteMoveUseCase = ExecuteMoveUseCase()
+            val mockResolvePlayerNameUseCase = ResolvePlayerNameUseCase()
             val mockFactory = mockk<MatchHandlerFactory> {
                 every { create(any()) } returns handler
             }
@@ -55,6 +57,7 @@ class ChessViewModelTest :
                 getAuthenticatedPlayerUseCase = mockGetAuthPlayerUseCase,
                 calculateValidMovesUseCase = mockCalculateValidMovesUseCase,
                 executeMoveUseCase = mockExecuteMoveUseCase,
+                resolvePlayerNameUseCase = mockResolvePlayerNameUseCase,
                 matchHandlerFactory = mockFactory,
                 matchId = null,
                 sharingStarted = SharingStarted.Eagerly,

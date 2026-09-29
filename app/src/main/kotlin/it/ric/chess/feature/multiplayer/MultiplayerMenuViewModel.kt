@@ -4,7 +4,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import it.ric.chess.core.log.Logger
 import it.ric.chess.core.viewmodel.BaseViewModel
 import it.ric.chess.domain.model.Match
-import it.ric.chess.domain.repository.AuthRepository
+import it.ric.chess.domain.usecase.auth.GetAuthenticatedUserUseCase
 import it.ric.chess.domain.usecase.auth.SignInWithPlayGamesUseCase
 import it.ric.chess.domain.usecase.match.CreateMatchUseCase
 import it.ric.chess.domain.usecase.match.JoinMatchUseCase
@@ -22,7 +22,7 @@ class MultiplayerMenuViewModel
     @Inject
     constructor(
         log: Logger,
-        authRepository: AuthRepository,
+        getAuthenticatedUserUseCase: GetAuthenticatedUserUseCase,
         signInWithPlayGamesUseCase: SignInWithPlayGamesUseCase,
         observeActiveMatchesUseCase: ObserveActiveMatchesUseCase,
         observeWaitingMatchesUseCase: ObserveWaitingMatchesUseCase,
@@ -33,9 +33,9 @@ class MultiplayerMenuViewModel
     ) : BaseViewModel(log) {
         init {
             scope.launchWhileLoading {
-                if (authRepository.uid == null) {
+                if (getAuthenticatedUserUseCase.uid == null) {
                     signInWithPlayGamesUseCase()
-                    if (authRepository.uid == null) {
+                    if (getAuthenticatedUserUseCase.uid == null) {
                         navigator.navigateBack()
                     }
                 }

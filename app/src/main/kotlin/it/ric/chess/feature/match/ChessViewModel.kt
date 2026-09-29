@@ -20,6 +20,7 @@ import it.ric.chess.domain.model.initialBoard
 import it.ric.chess.domain.usecase.auth.GetAuthenticatedPlayerUseCase
 import it.ric.chess.domain.usecase.match.CalculateValidMovesUseCase
 import it.ric.chess.domain.usecase.match.ExecuteMoveUseCase
+import it.ric.chess.domain.usecase.match.ResolvePlayerNameUseCase
 import it.ric.chess.feature.match.model.ChessUiState
 import it.ric.chess.feature.match.model.ChessboardNavigator
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,6 +43,7 @@ class ChessViewModel
         getAuthenticatedPlayerUseCase: GetAuthenticatedPlayerUseCase,
         private val calculateValidMovesUseCase: CalculateValidMovesUseCase,
         private val executeMoveUseCase: ExecuteMoveUseCase,
+        private val resolvePlayerNameUseCase: ResolvePlayerNameUseCase,
         matchHandlerFactory: MatchHandlerFactory,
         @Assisted private val matchId: String?,
         sharingStarted: SharingStarted = SharingStarted.WhileSubscribed(5_000),
@@ -125,23 +127,21 @@ class ChessViewModel
                     gameStatus = state.status,
                     myColor = state.playerColor,
                     whitePlayerName =
-                        state.whitePlayerName
-                            ?: if (state.playerColor == PieceColor.WHITE ||
-                                matchHandler.gameMode == GameMode.LOCAL
-                            ) {
-                                playerName
-                            } else {
-                                null
-                            },
+                        resolvePlayerNameUseCase(
+                            assignedName = state.whitePlayerName,
+                            playerColor = PieceColor.WHITE,
+                            myColor = state.playerColor,
+                            gameMode = matchHandler.gameMode,
+                            myDisplayName = playerName,
+                        ),
                     blackPlayerName =
-                        state.blackPlayerName
-                            ?: if (state.playerColor == PieceColor.BLACK ||
-                                matchHandler.gameMode == GameMode.LOCAL
-                            ) {
-                                playerName
-                            } else {
-                                null
-                            },
+                        resolvePlayerNameUseCase(
+                            assignedName = state.blackPlayerName,
+                            playerColor = PieceColor.BLACK,
+                            myColor = state.playerColor,
+                            gameMode = matchHandler.gameMode,
+                            myDisplayName = playerName,
+                        ),
                     gameMode = matchHandler.gameMode,
                     loadingState = viewModelLoadingState,
                     userMessage = userMessage,
