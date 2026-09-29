@@ -4,7 +4,6 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import it.ric.chess.domain.model.initialBoard
 
-
 class CalculateValidMovesUseCaseTest :
     FunSpec({
         val useCase = CalculateValidMovesUseCase()

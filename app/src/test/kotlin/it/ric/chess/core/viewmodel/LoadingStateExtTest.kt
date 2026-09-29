@@ -17,4 +17,3 @@ class LoadingStateExtTest :
             loadingState.isCurrentlyLoading shouldBe false
         }
     })
-

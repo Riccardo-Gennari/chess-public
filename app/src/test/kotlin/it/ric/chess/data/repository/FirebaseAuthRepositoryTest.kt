@@ -2,10 +2,10 @@ package it.ric.chess.data.repository
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import io.mockk.coVerify
 import it.ric.chess.core.log.Logger
 import it.ric.chess.data.datasource.datastore.UserPreferencesDataSource
 import it.ric.chess.data.datasource.firebase.Firebase
