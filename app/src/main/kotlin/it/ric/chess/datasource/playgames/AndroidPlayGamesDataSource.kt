@@ -61,7 +61,7 @@ class AndroidPlayGamesDataSource
                     PlayerInfo(
                         playerId = player.playerId,
                         displayName = player.displayName,
-                        iconImageUri = player.iconImageUri,
+                        iconImageUri = player.iconImageUri?.toString(),
                     )
                 } else {
                     null
@@ -87,7 +87,7 @@ class AndroidPlayGamesDataSource
                     PlayerInfo(
                         playerId = player.playerId,
                         displayName = player.displayName,
-                        iconImageUri = player.iconImageUri,
+                        iconImageUri = player.iconImageUri?.toString(),
                     )
                 } else {
                     null
