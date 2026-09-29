@@ -4,23 +4,20 @@ import com.google.firebase.auth.PlayGamesAuthProvider
 import it.ric.chess.core.log.Logger
 import it.ric.chess.core.log.tag
 import it.ric.chess.core.log.withFixedTag
-import it.ric.chess.datasource.datastore.DataStore
-import it.ric.chess.datasource.datastore.booleanDataKey
-import it.ric.chess.datasource.datastore.persistentData
+import it.ric.chess.datasource.datastore.UserPreferencesDataSource
 import it.ric.chess.datasource.firebase.Firebase
 import it.ric.chess.datasource.playgames.PlayGamesDataSource
 import it.ric.chess.domain.model.AuthUser
 import it.ric.chess.domain.repository.AuthRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Named
 
 class FirebaseAuthRepository
     @Inject
     constructor(
-        dataStore: DataStore,
+        private val userPreferencesDataSource: UserPreferencesDataSource,
         private val firebase: Firebase,
         private val playGamesDataSource: PlayGamesDataSource,
         log: Logger,
@@ -30,8 +27,7 @@ class FirebaseAuthRepository
         override val authUser: Flow<AuthUser?> = firebase.observeAuthState()
         private val log = log.withFixedTag(tag)
 
-        private val _isPlayGamesAuthAvailable = dataStore.persistentData(skipAuthKey)
-        override val isPlayGamesAuthAvailable = _isPlayGamesAuthAvailable.map { it ?: true }
+        override val isPlayGamesAuthAvailable: Flow<Boolean> = userPreferencesDataSource.isPlayGamesAuthAvailable
 
         override suspend fun signInWithPlayGames() {
             try {
@@ -40,9 +36,9 @@ class FirebaseAuthRepository
                     val credential = PlayGamesAuthProvider.getCredential(serverAuthCode)
                     firebase.signInWithCredential(credential)
                     log.debug("Signed in with Play Games: $uid")
-                    _isPlayGamesAuthAvailable.set(false)
+                    userPreferencesDataSource.setPlayGamesAuthAvailable(true)
                 } else {
-                    _isPlayGamesAuthAvailable.set(true)
+                    userPreferencesDataSource.setPlayGamesAuthAvailable(false)
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -54,7 +50,7 @@ class FirebaseAuthRepository
         override suspend fun signOutFromPlayGames() {
             try {
                 playGamesDataSource.signOut()
-                _isPlayGamesAuthAvailable.set(false)
+                userPreferencesDataSource.setPlayGamesAuthAvailable(false)
                 firebase.signOut()
                 log.debug("Signed out from Play Games and Firebase")
             } catch (e: CancellationException) {
@@ -62,9 +58,5 @@ class FirebaseAuthRepository
             } catch (e: Exception) {
                 log.error("Failed to sign out from Play Games", e)
             }
-        }
-
-        companion object {
-            val skipAuthKey = booleanDataKey("skipPlayGamesAuth")
         }
     }

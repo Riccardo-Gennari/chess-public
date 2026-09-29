@@ -1,8 +1,8 @@
 package it.ric.chess.data.repository
 
 import com.google.firebase.database.getValue
-import it.ric.chess.datasource.datastore.DataStore
-import it.ric.chess.datasource.datastore.stringDataKey
+import it.ric.chess.core.time.TimeProvider
+import it.ric.chess.datasource.datastore.UserPreferencesDataSource
 import it.ric.chess.datasource.firebase.Firebase
 import it.ric.chess.datasource.firebase.dto.MatchDto
 import it.ric.chess.datasource.firebase.mapper.createJoinBlackUpdate
@@ -24,7 +24,8 @@ class FirebaseMatchRepository
     @Inject
     constructor(
         private val firebase: Firebase,
-        private val dataStore: DataStore,
+        private val userPreferencesDataSource: UserPreferencesDataSource,
+        private val timeProvider: TimeProvider,
     ) : MatchRepository {
         override suspend fun createMatch(
             uid: String,
@@ -43,7 +44,7 @@ class FirebaseMatchRepository
                     blackPgsId = null,
                     fen = initialFen,
                     status = MatchStatus.ONGOING,
-                    lastUpdate = System.currentTimeMillis(),
+                    lastUpdate = timeProvider.currentTimeMillis(),
                 )
             firebase.setValue("$PATH_MATCHES/$id", match.toDto())
             return id
@@ -88,7 +89,7 @@ class FirebaseMatchRepository
                 val updates = mutableMapOf<String, Any?>()
                 if (isWhite) updates[MatchDto.FIELD_WHITE] = null
                 if (isBlack) updates[MatchDto.FIELD_BLACK] = null
-                updates[MatchDto.FIELD_TIMESTAMP] = System.currentTimeMillis()
+                updates[MatchDto.FIELD_TIMESTAMP] = timeProvider.currentTimeMillis()
                 firebase.updateChildren("$PATH_MATCHES/$matchId", updates)
             }
         }
@@ -134,18 +135,17 @@ class FirebaseMatchRepository
                 snapshot.getValue<MatchDto>()?.toDomain()
             }
 
-        override fun observeLocalMatch(): Flow<String?> = dataStore[localMatchKey]
+        override fun observeLocalMatch(): Flow<String?> = userPreferencesDataSource.localMatchFen
 
         override suspend fun saveLocalMatch(fen: String) {
-            dataStore.put(localMatchKey, fen)
+            userPreferencesDataSource.saveLocalMatchFen(fen)
         }
 
         override suspend fun clearLocalMatch() {
-            dataStore.remove(localMatchKey)
+            userPreferencesDataSource.clearLocalMatchFen()
         }
 
         companion object {
             private const val PATH_MATCHES = "matches"
-            private val localMatchKey = stringDataKey("local_match_fen")
         }
     }
