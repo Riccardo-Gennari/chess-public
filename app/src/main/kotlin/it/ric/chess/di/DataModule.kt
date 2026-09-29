@@ -20,15 +20,11 @@ import javax.inject.Singleton
 abstract class DataModule {
     @Binds
     @Singleton
-    abstract fun bindUserPreferencesDataSource(
-        impl: DefaultUserPreferencesDataSource,
-    ): UserPreferencesDataSource
+    abstract fun bindUserPreferencesDataSource(impl: DefaultUserPreferencesDataSource): UserPreferencesDataSource
 
     @Binds
     @Singleton
-    abstract fun bindTimeProvider(
-        impl: SystemTimeProvider,
-    ): TimeProvider
+    abstract fun bindTimeProvider(impl: SystemTimeProvider): TimeProvider
 
     companion object {
         @Provides
