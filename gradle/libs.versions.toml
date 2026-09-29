@@ -16,13 +16,14 @@ googleServices = "4.5.0"
 jvmTarget = "21"
 kotest = "6.2.5"
 kotlin = "2.4.20"
+kover = "0.9.9"
 hilt = "2.60.1"
 hiltViewmodel = "1.4.0"
 ksp = "2.3.10"
 kotlinxCoroutines = "1.11.0"
 kotlinxSerialization = "1.11.0"
 ktlint = "14.2.0"
-ktlint-compose-rules = "0.6.6"
+ktlint-compose-rules = "0.6.7"
 ktlint-core = "1.8.0"
 mockk = "1.14.11"
 play-services-auth = "22.0.0"
@@ -82,6 +83,7 @@ unitTest = [ "kotest-assertions-core", "kotest-property", "kotest-runner-junit5"
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

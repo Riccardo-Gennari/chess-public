@@ -51,3 +51,7 @@ fun Project.setupQualityChecks(
         }
     }
 }
+
+fun Project.setupKover(koverPlugin: Provider<PluginDependency>) {
+    plugins.apply(koverPlugin.get().pluginId)
+}
