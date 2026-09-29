@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import it.ric.chess.core.log.Logger
 import it.ric.chess.core.log.tag
-import it.ric.chess.datasource.datastore.DataStore
+import it.ric.chess.data.datasource.datastore.DataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

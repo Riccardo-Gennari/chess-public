@@ -4,9 +4,9 @@ import com.google.firebase.auth.PlayGamesAuthProvider
 import it.ric.chess.core.log.Logger
 import it.ric.chess.core.log.tag
 import it.ric.chess.core.log.withFixedTag
-import it.ric.chess.datasource.datastore.UserPreferencesDataSource
-import it.ric.chess.datasource.firebase.Firebase
-import it.ric.chess.datasource.playgames.PlayGamesDataSource
+import it.ric.chess.data.datasource.datastore.UserPreferencesDataSource
+import it.ric.chess.data.datasource.firebase.Firebase
+import it.ric.chess.data.datasource.playgames.PlayGamesDataSource
 import it.ric.chess.domain.model.AuthUser
 import it.ric.chess.domain.repository.AuthRepository
 import kotlinx.coroutines.CancellationException

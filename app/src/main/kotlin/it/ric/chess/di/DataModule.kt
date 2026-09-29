@@ -10,9 +10,9 @@ import dagger.hilt.components.SingletonComponent
 import it.ric.chess.core.log.Logger
 import it.ric.chess.core.time.SystemTimeProvider
 import it.ric.chess.core.time.TimeProvider
-import it.ric.chess.datasource.datastore.DataStore
-import it.ric.chess.datasource.datastore.DefaultUserPreferencesDataSource
-import it.ric.chess.datasource.datastore.UserPreferencesDataSource
+import it.ric.chess.data.datasource.datastore.DataStore
+import it.ric.chess.data.datasource.datastore.DefaultUserPreferencesDataSource
+import it.ric.chess.data.datasource.datastore.UserPreferencesDataSource
 import javax.inject.Singleton
 
 @Module

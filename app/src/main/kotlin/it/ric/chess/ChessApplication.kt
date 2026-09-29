@@ -9,7 +9,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.initialize
 import dagger.hilt.android.HiltAndroidApp
 import it.ric.chess.core.infrastructure.ActivityProvider
-import it.ric.chess.datasource.playgames.PlayGamesUriFetcher
+import it.ric.chess.data.datasource.playgames.PlayGamesUriFetcher
 import javax.inject.Inject
 
 @HiltAndroidApp

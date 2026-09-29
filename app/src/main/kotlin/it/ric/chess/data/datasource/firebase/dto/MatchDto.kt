@@ -1,4 +1,4 @@
-package it.ric.chess.datasource.firebase.dto
+package it.ric.chess.data.datasource.firebase.dto
 
 import com.google.firebase.database.PropertyName
 

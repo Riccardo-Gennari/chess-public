@@ -1,4 +1,4 @@
-package it.ric.chess.datasource.playgames
+package it.ric.chess.data.datasource.playgames
 
 import android.content.Context
 import android.graphics.drawable.Drawable

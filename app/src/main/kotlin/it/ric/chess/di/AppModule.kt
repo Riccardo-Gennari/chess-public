@@ -8,9 +8,9 @@ import it.ric.chess.core.infrastructure.ActivityProvider
 import it.ric.chess.core.log.LogcatLogger
 import it.ric.chess.core.log.Logger
 import it.ric.chess.core.model.AppInfo
-import it.ric.chess.datasource.firebase.Firebase
-import it.ric.chess.datasource.playgames.AndroidPlayGamesDataSource
-import it.ric.chess.datasource.playgames.PlayGamesDataSource
+import it.ric.chess.data.datasource.firebase.Firebase
+import it.ric.chess.data.datasource.playgames.AndroidPlayGamesDataSource
+import it.ric.chess.data.datasource.playgames.PlayGamesDataSource
 import kotlinx.coroutines.flow.SharingStarted
 import javax.inject.Singleton
 

@@ -1,6 +1,6 @@
 package it.ric.chess.data.repository
 
-import it.ric.chess.datasource.playgames.PlayGamesDataSource
+import it.ric.chess.data.datasource.playgames.PlayGamesDataSource
 import it.ric.chess.domain.model.PlayerInfo
 import it.ric.chess.domain.repository.PlayerRepository
 import javax.inject.Inject
