@@ -6,7 +6,7 @@ import com.google.android.gms.games.PlayGames
 import it.ric.chess.core.log.Logger
 import it.ric.chess.core.log.tag
 import it.ric.chess.core.log.withFixedTag
-import it.ric.chess.core.model.PlayerInfo
+import it.ric.chess.domain.model.PlayerInfo
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 
@@ -51,7 +51,7 @@ class ActualPlayGamesProvider(
                 PlayerInfo(
                     playerId = player.playerId,
                     displayName = player.displayName,
-                    iconImageUri = player.iconImageUri,
+                    iconImageUri = player.iconImageUri?.toString(),
                 )
             } else {
                 null
@@ -76,7 +76,7 @@ class ActualPlayGamesProvider(
                 PlayerInfo(
                     playerId = player.playerId,
                     displayName = player.displayName,
-                    iconImageUri = player.iconImageUri,
+                    iconImageUri = player.iconImageUri?.toString(),
                 )
             } else {
                 null
