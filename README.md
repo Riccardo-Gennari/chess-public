@@ -24,7 +24,7 @@ A modern Chess application for Android, built with Jetpack Compose and Firebase.
 
 ## Architecture
 
-This project strictly adheres to **Clean Architecture** principles and modern Android architecture guidelines, enforcing a strict unidirectional dependency flow and complete domain purity.
+This project strictly adheres to **Clean Architecture** principles and modern Android architecture guidelines, enforcing a strict top-to-bottom dependency flow and complete domain purity.
 
 ```mermaid
 graph TD
@@ -35,20 +35,34 @@ graph TD
     end
 
     subgraph Domain ["Domain Layer (it.ric.chess.domain - Pure Kotlin)"]
-        VM --> UC["Use Cases"]
-        UC --> Rules["Chess Rules & FEN Logic"]
-        UC --> Models["Domain Entities"]
-        UC --> Repos["Repository Interfaces"]
-        UC --> Handler["Match State Handlers"]
+        UC["Use Cases"]
+        Rules["Chess Rules & FEN Logic"]
+        Models["Domain Entities"]
+        Repos["Repository Interfaces"]
+        Handler["Match State Handlers"]
+
+        UC --> Rules
+        UC --> Models
+        UC --> Repos
+        UC --> Handler
     end
 
     subgraph Data ["Data Layer (it.ric.chess.data)"]
-        RepoImpl["Repository Implementations"] .->|Implements| Repos
-        RepoImpl --> PrefsDS["UserPreferencesDataSource"]
-        RepoImpl --> Time["TimeProvider"]
-        RepoImpl --> FirebaseDS["Firebase Client & DTOs"]
-        RepoImpl --> PlayGamesDS["Play Games DataSource"]
+        RepoImpl["Repository Implementations"]
+        PrefsDS["UserPreferencesDataSource"]
+        Time["TimeProvider"]
+        FirebaseDS["Firebase Client & DTOs"]
+        PlayGamesDS["Play Games DataSource"]
+
+        RepoImpl --> PrefsDS
+        RepoImpl --> Time
+        RepoImpl --> FirebaseDS
+        RepoImpl --> PlayGamesDS
     end
+
+%% Vertical flow between layers
+    VM -->|Invokes| UC
+    Repos -.-|Implemented by| RepoImpl
 
     classDef pure fill:#2d5a27,stroke:#333,stroke-width:1px,color:#fff;
     class Models,UC,Repos,Rules pure;
@@ -80,17 +94,17 @@ graph TD
    ```
 
 2. **Firebase Configuration**:
-   - Go to the [Firebase Console](https://console.firebase.google.com/).
-   - Add an Android app to your project with package name `it.ric.chess`.
-   - Download the `google-services.json` file and place it in the `app/` directory.
+    - Go to the [Firebase Console](https://console.firebase.google.com/).
+    - Add an Android app to your project with package name `it.ric.chess`.
+    - Download the `google-services.json` file and place it in the `app/` directory.
 
 3. **Local Properties**:
-   - Copy `local.properties.example` to `local.properties`.
-   - Set your `WEB_CLIENT_ID` in `local.properties`. You can find this in the Firebase Console under Authentication > Sign-in method > Google > Web SDK configuration.
+    - Copy `local.properties.example` to `local.properties`.
+    - Set your `WEB_CLIENT_ID` in `local.properties`. You can find this in the Firebase Console under Authentication > Sign-in method > Google > Web SDK configuration.
 
 4. **Build and Run**:
-   - Open the project in Android Studio.
-   - Sync Gradle and run the `app` module.
+    - Open the project in Android Studio.
+    - Sync Gradle and run the `app` module.
 
 ---
 
