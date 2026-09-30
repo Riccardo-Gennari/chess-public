@@ -1,16 +1,9 @@
 import it.ric.convention.BuildParams
+import it.ric.convention.findLocalOrProjectProperty
 import it.ric.convention.getAsInt
 import it.ric.convention.setupKotlin
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.api.tasks.testing.logging.TestLogEvent
-import java.util.Properties
-
-val localProperties = Properties().apply {
-    val localFile = rootProject.file("local.properties")
-    if (localFile.exists()) {
-        localFile.inputStream().use { load(it) }
-    }
-}
+import it.ric.convention.setupReleaseSigning
+import it.ric.convention.setupTestLogging
 
 plugins {
     id("it.ric.convention")
@@ -69,7 +62,11 @@ android {
         versionName = semver.version
 
         buildConfigField("String", "APP_NAME", "\"${BuildParams.APP_NAME}\"")
-        buildConfigField("String", "WEB_CLIENT_ID", "\"${localProperties.getProperty("WEB_CLIENT_ID") ?: ""}\"")
+        buildConfigField(
+            "String",
+            "WEB_CLIENT_ID",
+            "\"${findLocalOrProjectProperty("WEB_CLIENT_ID") ?: ""}\"",
+        )
     }
 
     compileOptions {
@@ -83,37 +80,13 @@ android {
         }
     }
 
-    signingConfigs {
-        create("release") {
-            val storeFilePath =
-                (
-                    localProperties.getProperty("RELEASE_STORE_FILE")
-                        ?: project.findProperty("releaseStoreFile")
-                ) as String?
-            if (!storeFilePath.isNullOrEmpty() && file(storeFilePath).exists()) {
-                storeFile = file(storeFilePath)
-                storePassword =
-                    (
-                        localProperties.getProperty("RELEASE_STORE_PASSWORD")
-                            ?: project.findProperty("releaseStorePassword")
-                    ) as String?
-                keyAlias =
-                    (
-                        localProperties.getProperty("RELEASE_KEY_ALIAS")
-                            ?: project.findProperty("releaseKeyAlias")
-                    ) as String?
-                keyPassword =
-                    (
-                        localProperties.getProperty("RELEASE_KEY_PASSWORD")
-                            ?: project.findProperty("releaseKeyPassword")
-                    ) as String?
-            }
-        }
-    }
+    setupReleaseSigning(this)
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+            if (signingConfigs.findByName("release") != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -135,11 +108,4 @@ android {
     }
 }
 
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
-    testLogging {
-        events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
-        exceptionFormat = TestExceptionFormat.SHORT
-        showStandardStreams = false
-    }
-}
+setupTestLogging()
