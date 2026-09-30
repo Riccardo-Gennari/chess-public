@@ -21,7 +21,7 @@ import it.ric.chess.domain.usecase.auth.GetAuthenticatedPlayerUseCase
 import it.ric.chess.domain.usecase.match.CalculateValidMovesUseCase
 import it.ric.chess.domain.usecase.match.ExecuteMoveUseCase
 import it.ric.chess.domain.usecase.match.ResolvePlayerNameUseCase
-import it.ric.chess.feature.match.model.ChessboardNavigator
+import it.ric.chess.feature.match.navigation.ChessboardNavigator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

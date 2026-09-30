@@ -1,4 +1,4 @@
-package it.ric.chess.feature.multiplayer
+package it.ric.chess.feature.multiplayer.model
 
 import androidx.compose.runtime.Immutable
 import it.ric.chess.core.viewmodel.LoadingState

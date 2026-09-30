@@ -46,10 +46,12 @@ import it.ric.chess.R
 import it.ric.chess.core.composable.AppTheme
 import it.ric.chess.core.composable.LoadingOverlayHost
 import it.ric.chess.domain.model.PlayerInfo
+import it.ric.chess.feature.menu.model.MenuUiState
+import it.ric.chess.feature.menu.navigation.MenuRoute
 import it.ric.chess.navigation.Route
 
 fun EntryProviderScope<Route>.menu() {
-    entry<Route.Menu> {
+    entry<MenuRoute> {
         MenuScreen()
     }
 }

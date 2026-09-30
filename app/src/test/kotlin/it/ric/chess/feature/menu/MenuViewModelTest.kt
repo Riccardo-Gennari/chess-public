@@ -12,6 +12,7 @@ import it.ric.chess.domain.usecase.auth.GetAuthenticatedPlayerUseCase
 import it.ric.chess.domain.usecase.auth.SignInWithPlayGamesUseCase
 import it.ric.chess.domain.usecase.auth.SignOutUseCase
 import it.ric.chess.feature.match.advanceUntilIdle
+import it.ric.chess.feature.menu.navigation.MenuNavigator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

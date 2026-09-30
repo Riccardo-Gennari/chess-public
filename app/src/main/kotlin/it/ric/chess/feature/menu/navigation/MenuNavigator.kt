@@ -1,7 +1,8 @@
-package it.ric.chess.feature.menu
+package it.ric.chess.feature.menu.navigation
 
+import it.ric.chess.feature.match.navigation.ChessboardRoute
+import it.ric.chess.feature.multiplayer.navigation.MultiplayerMenuRoute
 import it.ric.chess.navigation.Navigator
-import it.ric.chess.navigation.Route
 
 interface MenuNavigator {
     fun navigateToSinglePlayer()
@@ -12,10 +13,10 @@ interface MenuNavigator {
 fun Navigator.menuNavigator() =
     object : MenuNavigator {
         override fun navigateToSinglePlayer() {
-            push(Route.Chessboard())
+            push(ChessboardRoute())
         }
 
         override fun navigateToMultiplayerMenu() {
-            push(Route.MultiplayerMenu())
+            push(MultiplayerMenuRoute())
         }
     }

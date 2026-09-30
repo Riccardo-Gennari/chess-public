@@ -36,15 +36,16 @@ import it.ric.chess.domain.model.GameMode
 import it.ric.chess.domain.model.MatchStatus
 import it.ric.chess.domain.model.PieceColor
 import it.ric.chess.domain.model.initialBoard
-import it.ric.chess.feature.match.composable.Chessboard
-import it.ric.chess.feature.match.composable.GameOverDialog
-import it.ric.chess.feature.match.composable.Piece
-import it.ric.chess.feature.match.composable.PlayerInfo
+import it.ric.chess.feature.match.component.Chessboard
+import it.ric.chess.feature.match.component.GameOverDialog
+import it.ric.chess.feature.match.component.Piece
+import it.ric.chess.feature.match.component.PlayerInfo
 import it.ric.chess.feature.match.model.ChessUiState
+import it.ric.chess.feature.match.navigation.ChessboardRoute
 import it.ric.chess.navigation.Route
 
 fun EntryProviderScope<Route>.chessboard() {
-    entry<Route.Chessboard> { route ->
+    entry<ChessboardRoute> { route ->
         ChessboardScreen(matchId = route.matchId)
     }
 }

@@ -1,4 +1,4 @@
-package it.ric.chess.feature.match.composable
+package it.ric.chess.feature.match.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

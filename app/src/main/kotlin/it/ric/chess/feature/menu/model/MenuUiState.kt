@@ -1,4 +1,4 @@
-package it.ric.chess.feature.menu
+package it.ric.chess.feature.menu.model
 
 import androidx.compose.runtime.Immutable
 import it.ric.chess.core.viewmodel.LoadingState

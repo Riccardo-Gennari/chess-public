@@ -17,6 +17,7 @@ import it.ric.chess.domain.usecase.match.JoinMatchUseCase
 import it.ric.chess.domain.usecase.match.ObserveActiveMatchesUseCase
 import it.ric.chess.domain.usecase.match.ObserveWaitingMatchesUseCase
 import it.ric.chess.feature.match.advanceUntilIdle
+import it.ric.chess.feature.multiplayer.navigation.MultiplayerMenuNavigator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

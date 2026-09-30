@@ -1,4 +1,4 @@
-package it.ric.chess.feature.match.composable
+package it.ric.chess.feature.match.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
