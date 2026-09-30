@@ -1,14 +1,9 @@
 import it.ric.convention.BuildParams
+import it.ric.convention.findLocalOrProjectProperty
 import it.ric.convention.getAsInt
 import it.ric.convention.setupKotlin
-import java.util.Properties
-
-val localProperties = Properties().apply {
-    val localFile = rootProject.file("local.properties")
-    if (localFile.exists()) {
-        localFile.inputStream().use { load(it) }
-    }
-}
+import it.ric.convention.setupReleaseSigning
+import it.ric.convention.setupTestLogging
 
 plugins {
     id("it.ric.convention")
@@ -67,7 +62,11 @@ android {
         versionName = semver.version
 
         buildConfigField("String", "APP_NAME", "\"${BuildParams.APP_NAME}\"")
-        buildConfigField("String", "WEB_CLIENT_ID", "\"${localProperties.getProperty("WEB_CLIENT_ID") ?: ""}\"")
+        buildConfigField(
+            "String",
+            "WEB_CLIENT_ID",
+            "\"${findLocalOrProjectProperty("WEB_CLIENT_ID") ?: ""}\"",
+        )
     }
 
     compileOptions {
@@ -81,8 +80,13 @@ android {
         }
     }
 
+    setupReleaseSigning(this)
+
     buildTypes {
         release {
+            if (signingConfigs.findByName("release") != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -104,6 +108,4 @@ android {
     }
 }
 
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
-}
+setupTestLogging()
