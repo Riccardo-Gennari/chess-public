@@ -57,18 +57,23 @@ fun Project.setupReleaseSigning(android: ApplicationExtension) {
     val storeFilePath =
         findLocalOrProjectProperty("RELEASE_STORE_FILE")
             ?: findLocalOrProjectProperty("releaseStoreFile")
-    if (!storeFilePath.isNullOrEmpty() && file(storeFilePath).exists()) {
-        android.signingConfigs.create("release") {
-            storeFile = file(storeFilePath)
-            storePassword =
-                findLocalOrProjectProperty("RELEASE_STORE_PASSWORD")
-                    ?: findLocalOrProjectProperty("releaseStorePassword")
-            keyAlias =
-                findLocalOrProjectProperty("RELEASE_KEY_ALIAS")
-                    ?: findLocalOrProjectProperty("releaseKeyAlias")
-            keyPassword =
-                findLocalOrProjectProperty("RELEASE_KEY_PASSWORD")
-                    ?: findLocalOrProjectProperty("releaseKeyPassword")
+    if (!storeFilePath.isNullOrEmpty()) {
+        val keyFile =
+            file(storeFilePath).takeIf { it.exists() }
+                ?: rootProject.file(storeFilePath).takeIf { it.exists() }
+        if (keyFile != null) {
+            android.signingConfigs.create("release") {
+                storeFile = keyFile
+                storePassword =
+                    findLocalOrProjectProperty("RELEASE_STORE_PASSWORD")
+                        ?: findLocalOrProjectProperty("releaseStorePassword")
+                keyAlias =
+                    findLocalOrProjectProperty("RELEASE_KEY_ALIAS")
+                        ?: findLocalOrProjectProperty("releaseKeyAlias")
+                keyPassword =
+                    findLocalOrProjectProperty("RELEASE_KEY_PASSWORD")
+                        ?: findLocalOrProjectProperty("releaseKeyPassword")
+            }
         }
     }
 }
