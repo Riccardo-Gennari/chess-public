@@ -1,6 +1,8 @@
 import it.ric.convention.BuildParams
 import it.ric.convention.getAsInt
 import it.ric.convention.setupKotlin
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import java.util.Properties
 
 val localProperties = Properties().apply {
@@ -84,19 +86,27 @@ android {
     signingConfigs {
         create("release") {
             val storeFilePath =
-                (localProperties.getProperty("RELEASE_STORE_FILE")
-                    ?: project.findProperty("releaseStoreFile")) as String?
+                (
+                    localProperties.getProperty("RELEASE_STORE_FILE")
+                        ?: project.findProperty("releaseStoreFile")
+                ) as String?
             if (!storeFilePath.isNullOrEmpty() && file(storeFilePath).exists()) {
                 storeFile = file(storeFilePath)
                 storePassword =
-                    (localProperties.getProperty("RELEASE_STORE_PASSWORD")
-                        ?: project.findProperty("releaseStorePassword")) as String?
+                    (
+                        localProperties.getProperty("RELEASE_STORE_PASSWORD")
+                            ?: project.findProperty("releaseStorePassword")
+                    ) as String?
                 keyAlias =
-                    (localProperties.getProperty("RELEASE_KEY_ALIAS")
-                        ?: project.findProperty("releaseKeyAlias")) as String?
+                    (
+                        localProperties.getProperty("RELEASE_KEY_ALIAS")
+                            ?: project.findProperty("releaseKeyAlias")
+                    ) as String?
                 keyPassword =
-                    (localProperties.getProperty("RELEASE_KEY_PASSWORD")
-                        ?: project.findProperty("releaseKeyPassword")) as String?
+                    (
+                        localProperties.getProperty("RELEASE_KEY_PASSWORD")
+                            ?: project.findProperty("releaseKeyPassword")
+                    ) as String?
             }
         }
     }
@@ -127,4 +137,9 @@ android {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+    testLogging {
+        events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
+        exceptionFormat = TestExceptionFormat.SHORT
+        showStandardStreams = false
+    }
 }
