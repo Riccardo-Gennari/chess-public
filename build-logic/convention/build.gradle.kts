@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.kotlin.gradlePlugin)
     implementation(libs.detekt.gradlePlugin)
     implementation(libs.ktlint.gradlePlugin)
+    implementation("com.github.jmongard:git-semver-plugin:${libs.versions.semanticVersioning.get()}")
 }
 
 gradlePlugin {

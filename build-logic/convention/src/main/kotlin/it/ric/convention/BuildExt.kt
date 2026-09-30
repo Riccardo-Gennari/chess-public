@@ -1,6 +1,7 @@
 package it.ric.convention
 
 import com.android.build.api.dsl.ApplicationExtension
+import git.semver.plugin.gradle.GitSemverPluginExtension
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -34,6 +35,9 @@ fun KotlinBaseExtension.setupKotlin(
 }
 
 fun Provider<String>.getAsInt() = get().toInt()
+
+val GitSemverPluginExtension.versionCode: Int
+    get() = (semVersion.major * 10000) + (semVersion.minor * 100) + (semVersion.patch * 10) + semVersion.commitCount
 
 val Project.localProperties: Properties
     get() {

@@ -4,6 +4,7 @@ import it.ric.convention.getAsInt
 import it.ric.convention.setupKotlin
 import it.ric.convention.setupReleaseSigning
 import it.ric.convention.setupTestLogging
+import it.ric.convention.versionCode
 
 plugins {
     id("it.ric.convention")
@@ -58,7 +59,7 @@ android {
         targetSdk =
             libs.versions.android.targetSdk
                 .getAsInt()
-        versionCode = semver.semVersion.commitCount
+        versionCode = semver.versionCode
         versionName = semver.version
 
         buildConfigField("String", "APP_NAME", "\"${BuildParams.APP_NAME}\"")
