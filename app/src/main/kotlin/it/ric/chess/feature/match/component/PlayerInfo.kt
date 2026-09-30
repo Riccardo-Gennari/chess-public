@@ -1,4 +1,4 @@
-package it.ric.chess.feature.match.composable
+package it.ric.chess.feature.match.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.RepeatMode

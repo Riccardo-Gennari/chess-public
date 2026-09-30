@@ -1,9 +1,12 @@
-package it.ric.chess.navigation
+package it.ric.chess.navigation.nav3
 
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import it.ric.chess.core.log.Logger
 import it.ric.chess.core.log.tag
+import it.ric.chess.navigation.Navigator
+import it.ric.chess.navigation.Route
+import it.ric.chess.navigation.RouteWithResult
 import kotlinx.coroutines.CompletableDeferred
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass

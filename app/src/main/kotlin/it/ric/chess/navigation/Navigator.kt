@@ -4,20 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 /**
- * Narrow interface for components that only need to return data
- * back to a caller after a screen is popped.
- */
-interface ResultEmitter {
-    /**
-     * Emits a result [value] for a given [route].
-     */
-    fun <R> emitResult(
-        route: RouteWithResult<R>,
-        value: R,
-    )
-}
-
-/**
  * Main navigation interface for the application.
  * It manages the backstack of [Route]s and provides methods for pushing, popping,
  * and awaiting results from screens.

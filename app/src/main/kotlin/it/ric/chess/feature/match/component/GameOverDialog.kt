@@ -1,4 +1,4 @@
-package it.ric.chess.feature.match.composable
+package it.ric.chess.feature.match.component
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button

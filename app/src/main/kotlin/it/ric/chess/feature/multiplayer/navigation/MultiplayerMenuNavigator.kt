@@ -1,7 +1,7 @@
-package it.ric.chess.feature.multiplayer
+package it.ric.chess.feature.multiplayer.navigation
 
+import it.ric.chess.feature.match.navigation.ChessboardRoute
 import it.ric.chess.navigation.Navigator
-import it.ric.chess.navigation.Route
 
 interface MultiplayerMenuNavigator {
     fun navigateToMatch(matchId: String)
@@ -12,7 +12,7 @@ interface MultiplayerMenuNavigator {
 fun Navigator.multiplayerMenuNavigator() =
     object : MultiplayerMenuNavigator {
         override fun navigateToMatch(matchId: String) {
-            push(Route.Chessboard(matchId))
+            push(ChessboardRoute(matchId))
         }
 
         override fun navigateBack() {

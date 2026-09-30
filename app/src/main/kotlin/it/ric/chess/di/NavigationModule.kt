@@ -4,12 +4,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import it.ric.chess.feature.match.model.ChessboardNavigator
-import it.ric.chess.feature.match.model.chessboardNavigator
-import it.ric.chess.feature.menu.MenuNavigator
-import it.ric.chess.feature.menu.menuNavigator
-import it.ric.chess.feature.multiplayer.MultiplayerMenuNavigator
-import it.ric.chess.feature.multiplayer.multiplayerMenuNavigator
+import it.ric.chess.feature.match.navigation.ChessboardNavigator
+import it.ric.chess.feature.match.navigation.chessboardNavigator
+import it.ric.chess.feature.menu.navigation.MenuNavigator
+import it.ric.chess.feature.menu.navigation.menuNavigator
+import it.ric.chess.feature.multiplayer.navigation.MultiplayerMenuNavigator
+import it.ric.chess.feature.multiplayer.navigation.multiplayerMenuNavigator
 import it.ric.chess.navigation.Navigator
 
 @Module
