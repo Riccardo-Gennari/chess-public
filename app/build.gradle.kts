@@ -81,8 +81,29 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            val storeFilePath =
+                (localProperties.getProperty("RELEASE_STORE_FILE")
+                    ?: project.findProperty("releaseStoreFile")) as String?
+            if (!storeFilePath.isNullOrEmpty() && file(storeFilePath).exists()) {
+                storeFile = file(storeFilePath)
+                storePassword =
+                    (localProperties.getProperty("RELEASE_STORE_PASSWORD")
+                        ?: project.findProperty("releaseStorePassword")) as String?
+                keyAlias =
+                    (localProperties.getProperty("RELEASE_KEY_ALIAS")
+                        ?: project.findProperty("releaseKeyAlias")) as String?
+                keyPassword =
+                    (localProperties.getProperty("RELEASE_KEY_PASSWORD")
+                        ?: project.findProperty("releaseKeyPassword")) as String?
+            }
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
