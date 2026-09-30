@@ -87,6 +87,7 @@ jobs:
           ORG_GRADLE_PROJECT_releaseStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           ORG_GRADLE_PROJECT_releaseKeyAlias: ${{ secrets.KEY_ALIAS }}
           ORG_GRADLE_PROJECT_releaseKeyPassword: ${{ secrets.KEY_PASSWORD }}
+          ORG_GRADLE_PROJECT_WEB_CLIENT_ID: ${{ secrets.WEB_CLIENT_ID }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
