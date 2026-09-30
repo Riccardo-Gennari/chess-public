@@ -83,7 +83,7 @@ jobs:
       - name: Build Signed Release Bundle and APK
         run: ./gradlew bundleRelease assembleRelease --stacktrace
         env:
-          ORG_GRADLE_PROJECT_releaseStoreFile: app/keystore.jks
+          ORG_GRADLE_PROJECT_releaseStoreFile: keystore.jks
           ORG_GRADLE_PROJECT_releaseStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           ORG_GRADLE_PROJECT_releaseKeyAlias: ${{ secrets.KEY_ALIAS }}
           ORG_GRADLE_PROJECT_releaseKeyPassword: ${{ secrets.KEY_PASSWORD }}
@@ -94,7 +94,6 @@ jobs:
           files: |
             app/build/outputs/bundle/release/*.aab
             app/build/outputs/apk/release/*.apk
-            app/build/outputs/apk/release/*.aab
           fail_on_unmatched_files: false
           generate_release_notes: true
           draft: false
