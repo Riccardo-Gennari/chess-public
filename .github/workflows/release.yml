@@ -66,6 +66,13 @@ jobs:
           }
           EOF
 
+      - name: Inject Real google-services.json from GitHub Secret
+        env:
+          GOOGLE_SERVICES_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+        if: ${{ env.GOOGLE_SERVICES_BASE64 != '' }}
+        run: |
+          echo "${GOOGLE_SERVICES_BASE64}" | base64 --decode > app/google-services.json
+
       - name: Decode Keystore from GitHub Secret
         env:
           SIGNING_KEY_BASE64: ${{ secrets.SIGNING_KEY_BASE64 }}
