@@ -1,6 +1,7 @@
 package it.ric.chess.domain.logic
 
 import it.ric.chess.domain.model.Board
+import it.ric.chess.domain.model.GameMode
 import it.ric.chess.domain.model.MatchStatus
 import it.ric.chess.domain.model.Piece
 import it.ric.chess.domain.model.PieceColor
@@ -372,4 +373,18 @@ object ChessRules {
             else -> MatchStatus.ONGOING
         }
     }
+
+    /**
+     * Checks whether the player is allowed to make a move based on the current turn,
+     * player's assigned color, and game mode.
+     */
+    fun isPlayerTurnAllowed(
+        currentTurn: PieceColor,
+        playerColor: PieceColor?,
+        gameMode: GameMode,
+    ): Boolean = when (gameMode) {
+        GameMode.LOCAL, GameMode.BOT -> true
+        GameMode.REMOTE -> playerColor != null && currentTurn == playerColor
+    }
 }
+

@@ -11,12 +11,12 @@ import it.ric.chess.core.ui.model.UiText
 import it.ric.chess.core.viewmodel.BaseViewModel
 import it.ric.chess.domain.handler.MatchHandler
 import it.ric.chess.domain.handler.MatchHandlerFactory
+import it.ric.chess.domain.logic.ChessRules
 import it.ric.chess.domain.model.Board
 import it.ric.chess.domain.model.GameMode
 import it.ric.chess.domain.model.MatchStatus
 import it.ric.chess.domain.model.PieceColor
-import it.ric.chess.domain.model.copy
-import it.ric.chess.domain.model.initialBoard
+import it.ric.chess.domain.model.emptyBoard
 import it.ric.chess.domain.usecase.auth.GetAuthenticatedPlayerUseCase
 import it.ric.chess.domain.usecase.match.CalculateValidMovesUseCase
 import it.ric.chess.domain.usecase.match.ExecuteMoveUseCase
@@ -83,7 +83,7 @@ class ChessViewModel
                 }.stateIn(
                     scope = scope,
                     started = sharingStarted,
-                    initialValue = GameState(board = initialBoard().copy()),
+                    initialValue = GameState(board = emptyBoard()),
                 )
 
         private val selectedFlow = MutableStateFlow<Pair<Int, Int>?>(null)
@@ -151,7 +151,7 @@ class ChessViewModel
             }.stateIn(
                 scope,
                 sharingStarted,
-                ChessUiState(board = initialBoard().copy()),
+                ChessUiState(board = emptyBoard()),
             )
 
         fun onBack() {
@@ -198,8 +198,7 @@ class ChessViewModel
             val turn = state.turn
 
             // In multiplayer, check if it's the player's turn
-            val playerColor = state.playerColor
-            if (matchHandler.gameMode == GameMode.REMOTE && (playerColor == null || turn != playerColor)) {
+            if (!ChessRules.isPlayerTurnAllowed(turn, state.playerColor, matchHandler.gameMode)) {
                 userMessageFlow.value = UiText.Resource(R.string.not_your_turn)
                 return
             }
@@ -238,17 +237,12 @@ class ChessViewModel
             val board = state.board
             val turn = state.turn
 
-            val piece = board[fromRow][fromCol] ?: return
-
-            // Enforce turn and valid moves
-            if (piece.color != turn || !validMovesFlow.value.contains(Pair(toRow, toCol))) {
-                selectedFlow.value = null
-                userMessageFlow.value = UiText.Resource(R.string.invalid_move)
-                return
-            }
-
-            // Perform move and update state via Use Case
-            val moveResult = executeMoveUseCase(board, fromRow, fromCol, toRow, toCol, piece, turn)
+            val moveResult = executeMoveUseCase(board, fromRow, fromCol, toRow, toCol, turn)
+                .getOrElse {
+                    selectedFlow.value = null
+                    userMessageFlow.value = UiText.Resource(R.string.invalid_move)
+                    return
+                }
 
             scope.launchWhileLoadingIfIdle {
                 try {

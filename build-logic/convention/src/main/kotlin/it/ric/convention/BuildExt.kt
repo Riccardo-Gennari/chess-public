@@ -28,6 +28,7 @@ fun KotlinBaseExtension.setupKotlin(
         val kotlinVersion = KotlinVersion.fromVersion(kotlinMajorVersion)
         compilerOptions {
             apiVersion.set(kotlinVersion)
+            freeCompilerArgs.addAll("-XXLanguage:+FullValueClasses")
             languageVersion.set(kotlinVersion)
             progressiveMode.set(true)
         }
@@ -49,9 +50,8 @@ val Project.localProperties: Properties
         return props
     }
 
-fun Project.findLocalOrProjectProperty(key: String): String? {
-    return localProperties.getProperty(key) ?: (project.findProperty(key) as String?)
-}
+fun Project.findLocalOrProjectProperty(key: String): String? =
+    localProperties.getProperty(key) ?: (project.findProperty(key) as String?)
 
 fun Project.setupReleaseSigning(android: ApplicationExtension) {
     val storeFilePath =

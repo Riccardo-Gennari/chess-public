@@ -6,6 +6,7 @@ import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.shouldBe
 import it.ric.chess.domain.logic.ChessRules
 import it.ric.chess.domain.model.Board
+import it.ric.chess.domain.model.GameMode
 import it.ric.chess.domain.model.MatchStatus
 import it.ric.chess.domain.model.Piece
 import it.ric.chess.domain.model.PieceColor
@@ -165,6 +166,20 @@ class ChessRulesTest :
                 )
                 val queenMoves = ChessRules.calculateValidMoves(board, 1, 1, board[1][1]!!)
                 queenMoves shouldNotContain (0 to 0)
+            }
+        }
+
+        context("isPlayerTurnAllowed") {
+            test("Local and Bot game modes should always allow move regardless of player color") {
+                ChessRules.isPlayerTurnAllowed(PieceColor.WHITE, null, GameMode.LOCAL) shouldBe true
+                ChessRules.isPlayerTurnAllowed(PieceColor.BLACK, PieceColor.WHITE, GameMode.LOCAL) shouldBe true
+                ChessRules.isPlayerTurnAllowed(PieceColor.WHITE, null, GameMode.BOT) shouldBe true
+            }
+
+            test("Remote game mode should allow move only when current turn matches player color") {
+                ChessRules.isPlayerTurnAllowed(PieceColor.WHITE, PieceColor.WHITE, GameMode.REMOTE) shouldBe true
+                ChessRules.isPlayerTurnAllowed(PieceColor.WHITE, PieceColor.BLACK, GameMode.REMOTE) shouldBe false
+                ChessRules.isPlayerTurnAllowed(PieceColor.WHITE, null, GameMode.REMOTE) shouldBe false
             }
         }
     })
