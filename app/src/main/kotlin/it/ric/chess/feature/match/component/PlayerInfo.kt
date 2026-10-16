@@ -130,8 +130,9 @@ private fun TurnIndicator(
     color: PieceColor,
     modifier: Modifier = Modifier,
 ) {
-    val indicatorColor = if (color == PieceColor.WHITE) Color.White else Color.Black
-    val borderColor = if (color == PieceColor.WHITE) Color.Black else Color.White
+    val borderColor = if (color == PieceColor.WHITE) Color.White else Color.Black
+    val indicatorColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
+    val shape = CircleShape
 
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         if (isCurrentTurn) {
@@ -151,8 +152,8 @@ private fun TurnIndicator(
                     Modifier
                         .size(16.dp)
                         .scale(scale)
-                        .clip(CircleShape)
-                        .background(indicatorColor.copy(alpha = 0.3f)),
+                        .clip(shape)
+                        .background(indicatorColor, shape),
             )
         }
 
@@ -160,9 +161,10 @@ private fun TurnIndicator(
             modifier =
                 Modifier
                     .size(16.dp)
-                    .clip(CircleShape)
-                    .background(indicatorColor)
-                    .background(borderColor.copy(alpha = 0.1f)), // Subtle border/inner shadow
+                    .clip(shape)
+                    .background(indicatorColor, shape)
+                    .padding(1.dp)
+                    .background(borderColor, shape),
         )
     }
 }
