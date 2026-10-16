@@ -8,7 +8,5 @@ class SignInWithPlayGamesUseCase
     constructor(
         private val authRepository: AuthRepository,
     ) {
-        suspend operator fun invoke() {
-            authRepository.signInWithPlayGames()
-        }
+        suspend operator fun invoke() = authRepository.signInWithPlayGames()
     }

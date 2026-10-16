@@ -1,4 +1,4 @@
-package it.ric.chess.core.composable
+package it.ric.chess.core.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

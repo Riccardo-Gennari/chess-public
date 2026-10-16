@@ -11,7 +11,7 @@ import androidx.navigation3.scene.DialogSceneStrategy
 import androidx.navigation3.scene.SceneStrategy
 import androidx.navigation3.scene.SinglePaneSceneStrategy
 import androidx.navigation3.ui.NavDisplay
-import it.ric.chess.core.composable.AppTheme
+import it.ric.chess.core.ui.component.AppTheme
 import it.ric.chess.navigation.Route
 import it.ric.chess.navigation.strategy.SimpleOverlaySceneStrategy
 

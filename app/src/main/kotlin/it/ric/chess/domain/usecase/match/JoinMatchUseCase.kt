@@ -14,7 +14,7 @@ class JoinMatchUseCase
     ) {
         suspend operator fun invoke(matchId: String): Boolean {
             val uid = authRepository.uid ?: return false
-            val pgsId = playerRepository.getCurrentPlayerInfo()?.playerId
+            val pgsId = playerRepository.getCurrentPlayerInfo().getOrNull()?.playerId ?: return false
             return matchRepository.joinMatch(matchId, uid, pgsId)
         }
     }

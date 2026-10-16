@@ -1,4 +1,4 @@
-package it.ric.chess.core.util
+package it.ric.chess.core.ui.model
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
@@ -9,7 +9,7 @@ sealed class UiText {
         val value: String,
     ) : UiText()
 
-    class StringResource(
+    class Resource(
         @StringRes val resId: Int,
         vararg val args: Any,
     ) : UiText()
@@ -19,6 +19,6 @@ sealed class UiText {
     fun asString(): String =
         when (this) {
             is DynamicString -> value
-            is StringResource -> stringResource(resId, *args)
+            is Resource -> stringResource(resId, *args)
         }
 }

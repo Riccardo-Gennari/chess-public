@@ -8,7 +8,5 @@ class SignOutUseCase
     constructor(
         private val authRepository: AuthRepository,
     ) {
-        suspend operator fun invoke() {
-            authRepository.signOutFromPlayGames()
-        }
+        suspend operator fun invoke() = authRepository.signOutFromPlayGames()
     }

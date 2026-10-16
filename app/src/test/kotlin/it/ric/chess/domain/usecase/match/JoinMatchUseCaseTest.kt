@@ -34,7 +34,7 @@ class JoinMatchUseCaseTest :
                 every { uid } returns "user-1"
             }
             val playerRepo = mockk<PlayerRepository> {
-                coEvery { getCurrentPlayerInfo() } returns PlayerInfo("pgs-1", "Player 1")
+                coEvery { getCurrentPlayerInfo() } returns Result.success(PlayerInfo("pgs-1", "Player 1"))
             }
 
             val useCase = JoinMatchUseCase(matchRepo, authRepo, playerRepo)

@@ -24,7 +24,7 @@ class GetAuthenticatedPlayerUseCaseTest :
             val useCase = GetAuthenticatedPlayerUseCase(authRepo, playerRepo)
             val result = useCase().first()
 
-            result shouldBe PlayerInfo.anonymous
+            result shouldBe Result.success(null)
         }
 
         test("should return player info when user is authenticated") {
@@ -33,12 +33,12 @@ class GetAuthenticatedPlayerUseCaseTest :
             }
             val playerInfo = PlayerInfo("pgs-1", "Test Player")
             val playerRepo = mockk<PlayerRepository> {
-                coEvery { getCurrentPlayerInfo() } returns playerInfo
+                coEvery { getCurrentPlayerInfo() } returns Result.success(playerInfo)
             }
 
             val useCase = GetAuthenticatedPlayerUseCase(authRepo, playerRepo)
             val result = useCase().first()
 
-            result shouldBe playerInfo
+            result shouldBe Result.success(playerInfo)
         }
     })

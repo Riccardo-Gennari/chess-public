@@ -13,8 +13,8 @@
     <string name="quit_match">Quit Match</string>
     <string name="game_over">Game Over</string>
     <string name="play_again">Play Again</string>
-    <string name="white_wins">White wins!</string>
-    <string name="black_wins">Black wins!</string>
+    <string name="white_wins">Light wins!</string>
+    <string name="black_wins">Dark wins!</string>
     <string name="draw">Draw!</string>
     <string name="match_name_label">Match Name</string>
     <string name="optional_placeholder">Optional</string>
@@ -23,10 +23,10 @@
     <string name="my_active_matches">My Active Matches</string>
     <string name="continue_button">Continue</string>
     <string name="status_format">Status: %1$s</string>
-    <string name="white_you">White (You)</string>
-    <string name="black_you">Black (You)</string>
-    <string name="white_player">White Player</string>
-    <string name="black_player">Black Player</string>
+    <string name="white_you">Light (You)</string>
+    <string name="black_you">Dark (You)</string>
+    <string name="white_player">Light Player</string>
+    <string name="black_player">Dark Player</string>
     <string name="turn_indicator">TURN</string>
     <string name="back">Back</string>
     <string name="invalid_move">Invalid move!</string>
@@ -34,4 +34,11 @@
 
     <!-- Google Play Games Services -->
     <string name="game_services_project_id" translatable="false">300855117317</string>
+    <string name="error_sign_in">Failed to sign in to account</string>
+    <string name="error_sign_out">Failed to sign out from account</string>
+    <string name="something_went_wrong">Something went wrong.</string>
+    <string name="please_try_again">Please try again.</string>
+    <string name="retry">Retry</string>
+    <string name="sign_in_required">Sign in required</string>
+    <string name="sign_in_to_continue">You need to be logged in your account to be able to access multiplayer.\nDo you want to sign in now?</string>
 </resources>

@@ -2,6 +2,7 @@ package it.ric.chess.data.datasource.firebase
 
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -32,9 +33,8 @@ class Firebase(
     /**
      * Authenticates with a credential.
      */
-    suspend fun signInWithCredential(credential: AuthCredential) {
-        auth.signInWithCredential(credential).await()
-    }
+    suspend fun signInWithCredential(credential: AuthCredential): FirebaseUser? =
+        auth.signInWithCredential(credential).await().user
 
     /**
      * Signs out from Firebase.

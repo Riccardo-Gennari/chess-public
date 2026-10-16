@@ -16,7 +16,7 @@ class CreateMatchUseCase
     ) {
         suspend operator fun invoke(name: String = ""): String? {
             val uid = authRepository.uid ?: return null
-            val pgsId = playerRepository.getCurrentPlayerInfo()?.playerId
+            val pgsId = playerRepository.getCurrentPlayerInfo().getOrNull()?.playerId ?: return null
             return matchRepository.createMatch(
                 uid = uid,
                 initialFen = initialBoard().toFen(),

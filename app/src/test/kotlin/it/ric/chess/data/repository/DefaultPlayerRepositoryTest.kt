@@ -12,21 +12,21 @@ class DefaultPlayerRepositoryTest :
 
         test("getCurrentPlayerInfo should delegate to datasource") {
             val dataSource = mockk<PlayGamesDataSource> {
-                coEvery { getPlayerInfo() } returns PlayerInfo("p1", "Player 1")
+                coEvery { getPlayerInfo() } returns Result.success(PlayerInfo("p1", "Player 1"))
             }
             val repo = DefaultPlayerRepository(dataSource)
 
             val info = repo.getCurrentPlayerInfo()
-            info shouldBe PlayerInfo("p1", "Player 1")
+            info shouldBe Result.success(PlayerInfo("p1", "Player 1"))
         }
 
         test("getPlayerInfo by id should delegate to datasource") {
             val dataSource = mockk<PlayGamesDataSource> {
-                coEvery { getPlayerInfo("p2") } returns PlayerInfo("p2", "Player 2")
+                coEvery { getPlayerInfo("p2") } returns Result.success(PlayerInfo("p2", "Player 2"))
             }
             val repo = DefaultPlayerRepository(dataSource)
 
             val info = repo.getPlayerInfo("p2")
-            info shouldBe PlayerInfo("p2", "Player 2")
+            info shouldBe Result.success(PlayerInfo("p2", "Player 2"))
         }
     })

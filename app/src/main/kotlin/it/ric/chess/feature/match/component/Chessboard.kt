@@ -11,11 +11,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import it.ric.chess.core.composable.AppTheme
+import it.ric.chess.core.ui.component.AppTheme
+import it.ric.chess.core.util.PreviewDynamicColors
+import it.ric.chess.core.util.brighten
+import it.ric.chess.core.util.darken
 import it.ric.chess.domain.model.Board
 import it.ric.chess.domain.model.Piece
 import it.ric.chess.domain.model.emptyBoard
@@ -50,7 +53,13 @@ fun Chessboard(
                                 .weight(1f)
                                 .fillMaxHeight()
                                 .background(
-                                    if (isLight) colors.primaryContainer else colors.primary,
+                                    remember(colors, isLight) {
+                                        if (isLight) {
+                                            colors.primaryFixed.brighten(0.6f)
+                                        } else {
+                                            colors.primaryFixed.darken(0.2f)
+                                        }
+                                    },
                                 ).then(
                                     if (isSelected) {
                                         Modifier.background(colors.secondaryContainer.copy(alpha = 0.6f))
@@ -69,7 +78,7 @@ fun Chessboard(
     }
 }
 
-@PreviewLightDark
+@PreviewDynamicColors
 @Composable
 private fun ChessboardPreview() {
     AppTheme {

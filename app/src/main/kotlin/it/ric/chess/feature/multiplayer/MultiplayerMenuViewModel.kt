@@ -2,16 +2,16 @@ package it.ric.chess.feature.multiplayer
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.ric.chess.core.log.Logger
+import it.ric.chess.core.ui.model.UiText
 import it.ric.chess.core.viewmodel.BaseViewModel
 import it.ric.chess.domain.model.Match
-import it.ric.chess.domain.usecase.auth.GetAuthenticatedUserUseCase
-import it.ric.chess.domain.usecase.auth.SignInWithPlayGamesUseCase
 import it.ric.chess.domain.usecase.match.CreateMatchUseCase
 import it.ric.chess.domain.usecase.match.JoinMatchUseCase
 import it.ric.chess.domain.usecase.match.ObserveActiveMatchesUseCase
 import it.ric.chess.domain.usecase.match.ObserveWaitingMatchesUseCase
 import it.ric.chess.feature.multiplayer.model.MultiplayerMenuUiState
 import it.ric.chess.feature.multiplayer.navigation.MultiplayerMenuNavigator
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -24,25 +24,14 @@ class MultiplayerMenuViewModel
     @Inject
     constructor(
         log: Logger,
-        getAuthenticatedUserUseCase: GetAuthenticatedUserUseCase,
-        signInWithPlayGamesUseCase: SignInWithPlayGamesUseCase,
         observeActiveMatchesUseCase: ObserveActiveMatchesUseCase,
         observeWaitingMatchesUseCase: ObserveWaitingMatchesUseCase,
         private val createMatchUseCase: CreateMatchUseCase,
         private val joinMatchUseCase: JoinMatchUseCase,
         private val navigator: MultiplayerMenuNavigator,
-        sharingStarted: SharingStarted = SharingStarted.WhileSubscribed(5000),
+        sharingStarted: SharingStarted = SharingStarted.WhileSubscribed(),
     ) : BaseViewModel(log) {
-        init {
-            scope.launchWhileLoading {
-                if (getAuthenticatedUserUseCase.uid == null) {
-                    signInWithPlayGamesUseCase()
-                    if (getAuthenticatedUserUseCase.uid == null) {
-                        navigator.navigateBack()
-                    }
-                }
-            }
-        }
+        private val userMessageFlow = MutableStateFlow<UiText?>(null)
 
         private val activeMatches: StateFlow<List<Match>> =
             observeActiveMatchesUseCase()
@@ -59,11 +48,12 @@ class MultiplayerMenuViewModel
                 }.stateIn(scope, sharingStarted, emptyList())
 
         val uiState: StateFlow<MultiplayerMenuUiState> =
-            combine(activeMatches, waitingMatches) { active, waiting ->
+            combine(activeMatches, waitingMatches, userMessageFlow) { active, waiting, message ->
                 MultiplayerMenuUiState(
                     activeMatches = active,
                     waitingMatches = waiting,
                     loadingState = viewModelLoadingState,
+                    userMessage = message,
                 )
             }.stateIn(scope, sharingStarted, MultiplayerMenuUiState())
 
@@ -94,5 +84,9 @@ class MultiplayerMenuViewModel
 
         fun onBack() {
             navigator.navigateBack()
+        }
+
+        fun onDismissMessage() {
+            userMessageFlow.value = null
         }
     }

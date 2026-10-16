@@ -43,8 +43,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import coil3.compose.AsyncImage
 import it.ric.chess.R
-import it.ric.chess.core.composable.AppTheme
-import it.ric.chess.core.composable.LoadingOverlayHost
+import it.ric.chess.core.ui.component.AppTheme
+import it.ric.chess.core.ui.component.ConfirmationAlert
+import it.ric.chess.core.ui.component.LoadingOverlayHost
+import it.ric.chess.core.ui.component.UserMessageHost
 import it.ric.chess.domain.model.PlayerInfo
 import it.ric.chess.feature.menu.model.MenuUiState
 import it.ric.chess.feature.menu.navigation.MenuRoute
@@ -61,6 +63,7 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     MenuScreen(
         uiState = uiState,
+        onDismissMessage = viewModel::onDismissMessage,
         onSinglePlayerSelect = viewModel::onSelectSinglePlayer,
         onMultiPlayerSelect = viewModel::onSelectMultiPlayer,
         onSignIn = viewModel::onSignIn,
@@ -72,6 +75,7 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
 @Composable
 fun MenuScreen(
     uiState: MenuUiState,
+    onDismissMessage: () -> Unit,
     onSinglePlayerSelect: () -> Unit,
     onMultiPlayerSelect: () -> Unit,
     onSignIn: () -> Unit,
@@ -93,6 +97,9 @@ fun MenuScreen(
                         }
                     },
                 )
+            },
+            snackbarHost = {
+                UserMessageHost(uiState.snackbarMessage, onDismissMessage)
             },
             modifier = Modifier.fillMaxSize(),
         ) { scaffoldPadding ->
@@ -182,6 +189,10 @@ fun MenuScreen(
             }
         }
 
+        if (uiState.signInConfirmationAlert != null) {
+            ConfirmationAlert(uiState.signInConfirmationAlert)
+        }
+
         LoadingOverlayHost(uiState.loadingState, Modifier.fillMaxSize())
     }
 }
@@ -195,6 +206,7 @@ private fun MenuScreenPreview() {
                 MenuUiState(
                     playerInfo = PlayerInfo(playerId = "123", displayName = "John Doe"),
                 ),
+            onDismissMessage = {},
             onSinglePlayerSelect = {},
             onMultiPlayerSelect = {},
             onSignIn = {},
