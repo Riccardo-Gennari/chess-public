@@ -1,4 +1,4 @@
-package it.ric.chess.feature.menu
+package it.ric.chess.feature.menu.main
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
@@ -48,20 +48,20 @@ import it.ric.chess.core.ui.component.ConfirmationAlert
 import it.ric.chess.core.ui.component.LoadingOverlayHost
 import it.ric.chess.core.ui.component.UserMessageHost
 import it.ric.chess.domain.model.PlayerInfo
-import it.ric.chess.feature.menu.model.MenuUiState
-import it.ric.chess.feature.menu.navigation.MenuRoute
+import it.ric.chess.feature.menu.main.model.MainMenuUiState
+import it.ric.chess.feature.menu.main.navigation.MainMenu
 import it.ric.chess.navigation.Route
 
-fun EntryProviderScope<Route>.menu() {
-    entry<MenuRoute> {
-        MenuScreen()
+fun EntryProviderScope<Route>.mainMenu() {
+    entry<MainMenu> {
+        MainMenuScreen()
     }
 }
 
 @Composable
-fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
+fun MainMenuScreen(viewModel: MainMenuViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    MenuScreen(
+    MainMenuScreen(
         uiState = uiState,
         onDismissMessage = viewModel::onDismissMessage,
         onSinglePlayerSelect = viewModel::onSelectSinglePlayer,
@@ -73,8 +73,8 @@ fun MenuScreen(viewModel: MenuViewModel = hiltViewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MenuScreen(
-    uiState: MenuUiState,
+fun MainMenuScreen(
+    uiState: MainMenuUiState,
     onDismissMessage: () -> Unit,
     onSinglePlayerSelect: () -> Unit,
     onMultiPlayerSelect: () -> Unit,
@@ -201,9 +201,9 @@ fun MenuScreen(
 @Composable
 private fun MenuScreenPreview() {
     AppTheme {
-        MenuScreen(
+        MainMenuScreen(
             uiState =
-                MenuUiState(
+                MainMenuUiState(
                     playerInfo = PlayerInfo(playerId = "123", displayName = "John Doe"),
                 ),
             onDismissMessage = {},

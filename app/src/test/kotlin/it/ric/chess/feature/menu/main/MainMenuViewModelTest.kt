@@ -1,4 +1,4 @@
-package it.ric.chess.feature.menu
+package it.ric.chess.feature.menu.main
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -12,16 +12,16 @@ import it.ric.chess.domain.usecase.auth.GetAuthenticatedPlayerUseCase
 import it.ric.chess.domain.usecase.auth.SignInWithPlayGamesUseCase
 import it.ric.chess.domain.usecase.auth.SignOutUseCase
 import it.ric.chess.feature.match.advanceUntilIdle
-import it.ric.chess.feature.menu.navigation.MenuNavigator
+import it.ric.chess.feature.menu.main.navigation.MainMenuNavigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 
-class MenuViewModelTest :
+class MainMenuViewModelTest :
     FunSpec({
 
-        fun setupMocks(): Pair<Logger, MenuNavigator> {
+        fun setupMocks(): Pair<Logger, MainMenuNavigator> {
             val mockLogger = mockk<Logger>(relaxed = true)
-            val navigator = mockk<MenuNavigator>(relaxed = true)
+            val navigator = mockk<MainMenuNavigator>(relaxed = true)
             return mockLogger to navigator
         }
 
@@ -34,7 +34,7 @@ class MenuViewModelTest :
             val mockSignInUseCase = mockk<SignInWithPlayGamesUseCase>(relaxed = true)
             val mockSignOutUseCase = mockk<SignOutUseCase>(relaxed = true)
 
-            val viewModel = MenuViewModel(
+            val viewModel = MainMenuViewModel(
                 log = log,
                 getAuthenticatedPlayerUseCase = mockGetAuthPlayerUseCase,
                 signInWithPlayGamesUseCase = mockSignInUseCase,
@@ -59,7 +59,7 @@ class MenuViewModelTest :
             val mockSignInUseCase = mockk<SignInWithPlayGamesUseCase>(relaxed = true)
             val mockSignOutUseCase = mockk<SignOutUseCase>(relaxed = true)
 
-            val viewModel = MenuViewModel(
+            val viewModel = MainMenuViewModel(
                 log = log,
                 getAuthenticatedPlayerUseCase = mockGetAuthPlayerUseCase,
                 signInWithPlayGamesUseCase = mockSignInUseCase,
@@ -89,7 +89,7 @@ class MenuViewModelTest :
             val mockSignInUseCase = mockk<SignInWithPlayGamesUseCase>(relaxed = true)
             val mockSignOutUseCase = mockk<SignOutUseCase>(relaxed = true)
 
-            val viewModel = MenuViewModel(
+            val viewModel = MainMenuViewModel(
                 log = log,
                 getAuthenticatedPlayerUseCase = mockGetAuthPlayerUseCase,
                 signInWithPlayGamesUseCase = mockSignInUseCase,
@@ -102,7 +102,7 @@ class MenuViewModelTest :
             verify { nav.navigateToSinglePlayer() }
         }
 
-        test("onSelectMultiPlayer should navigate to multiplayer menu when signed in") {
+        test("onSelectMultiPlayer should navigate to multiplayer mainMenu when signed in") {
             val (log, nav) = setupMocks()
             val playerFlow = MutableStateFlow<Result<PlayerInfo?>>(Result.success(PlayerInfo("uid1", "Test User")))
             val mockGetAuthPlayerUseCase = mockk<GetAuthenticatedPlayerUseCase> {
@@ -111,7 +111,7 @@ class MenuViewModelTest :
             val mockSignInUseCase = mockk<SignInWithPlayGamesUseCase>(relaxed = true)
             val mockSignOutUseCase = mockk<SignOutUseCase>(relaxed = true)
 
-            val viewModel = MenuViewModel(
+            val viewModel = MainMenuViewModel(
                 log = log,
                 getAuthenticatedPlayerUseCase = mockGetAuthPlayerUseCase,
                 signInWithPlayGamesUseCase = mockSignInUseCase,
@@ -135,7 +135,7 @@ class MenuViewModelTest :
             val mockSignInUseCase = mockk<SignInWithPlayGamesUseCase>(relaxed = true)
             val mockSignOutUseCase = mockk<SignOutUseCase>(relaxed = true)
 
-            val viewModel = MenuViewModel(
+            val viewModel = MainMenuViewModel(
                 log = log,
                 getAuthenticatedPlayerUseCase = mockGetAuthPlayerUseCase,
                 signInWithPlayGamesUseCase = mockSignInUseCase,
@@ -159,7 +159,7 @@ class MenuViewModelTest :
             val mockSignInUseCase = mockk<SignInWithPlayGamesUseCase>(relaxed = true)
             val mockSignOutUseCase = mockk<SignOutUseCase>(relaxed = true)
 
-            val viewModel = MenuViewModel(
+            val viewModel = MainMenuViewModel(
                 log = log,
                 getAuthenticatedPlayerUseCase = mockGetAuthPlayerUseCase,
                 signInWithPlayGamesUseCase = mockSignInUseCase,

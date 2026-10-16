@@ -7,7 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import it.ric.chess.core.log.Logger
-import it.ric.chess.feature.menu.navigation.MenuRoute
+import it.ric.chess.feature.menu.main.navigation.MainMenu
 import it.ric.chess.navigation.Navigator
 import it.ric.chess.navigation.nav3.Nav3Navigator
 
@@ -18,7 +18,7 @@ object NavigationCoreModule {
     @ActivityRetainedScoped
     fun provideNav3Navigator(logger: Logger): Nav3Navigator =
         Nav3Navigator(
-            backStack = mutableStateListOf(MenuRoute()),
+            backStack = mutableStateListOf(MainMenu()),
             log = logger,
         )
 

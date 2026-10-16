@@ -1,4 +1,4 @@
-package it.ric.chess.feature.menu
+package it.ric.chess.feature.menu.main
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.ric.chess.R
@@ -11,8 +11,8 @@ import it.ric.chess.domain.model.PlayerInfo
 import it.ric.chess.domain.usecase.auth.GetAuthenticatedPlayerUseCase
 import it.ric.chess.domain.usecase.auth.SignInWithPlayGamesUseCase
 import it.ric.chess.domain.usecase.auth.SignOutUseCase
-import it.ric.chess.feature.menu.model.MenuUiState
-import it.ric.chess.feature.menu.navigation.MenuNavigator
+import it.ric.chess.feature.menu.main.model.MainMenuUiState
+import it.ric.chess.feature.menu.main.navigation.MainMenuNavigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -22,14 +22,14 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class MenuViewModel
+class MainMenuViewModel
     @Inject
     constructor(
         log: Logger,
         getAuthenticatedPlayerUseCase: GetAuthenticatedPlayerUseCase,
         private val signInWithPlayGamesUseCase: SignInWithPlayGamesUseCase,
         private val signOutUseCase: SignOutUseCase,
-        private val navigator: MenuNavigator,
+        private val navigator: MainMenuNavigator,
         sharingStarted: SharingStarted = SharingStarted.WhileSubscribed(),
     ) : BaseViewModel(log) {
         private val signInConfirmation = MutableStateFlow<UiConfirmationAlert?>(null)
@@ -45,14 +45,14 @@ class MenuViewModel
             signInConfirmation,
             snackbarMessage,
         ) { playerInfo, signInConfirmation, snackbarMessage ->
-            MenuUiState(
+            MainMenuUiState(
                 isSignedIn = playerInfo.playerId.isNotEmpty(),
                 loadingState = viewModelLoadingState,
                 playerInfo = playerInfo,
                 signInConfirmationAlert = signInConfirmation,
                 snackbarMessage = snackbarMessage,
             )
-        }.stateIn(scope, sharingStarted, MenuUiState())
+        }.stateIn(scope, sharingStarted, MainMenuUiState())
 
         fun onDismissMessage() {
             snackbarMessage.value = null

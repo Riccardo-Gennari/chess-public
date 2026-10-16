@@ -1,4 +1,4 @@
-package it.ric.chess.feature.multiplayer
+package it.ric.chess.feature.menu.multiplayer
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,12 +37,12 @@ import it.ric.chess.core.ui.component.BackButton
 import it.ric.chess.core.ui.component.LoadingOverlayHost
 import it.ric.chess.core.ui.component.UserMessageHost
 import it.ric.chess.domain.model.Match
-import it.ric.chess.feature.multiplayer.model.MultiplayerMenuUiState
-import it.ric.chess.feature.multiplayer.navigation.MultiplayerMenuRoute
+import it.ric.chess.feature.menu.multiplayer.model.MultiplayerMenuUiState
+import it.ric.chess.feature.menu.multiplayer.navigation.MultiplayerMenu
 import it.ric.chess.navigation.Route
 
 fun EntryProviderScope<Route>.multiplayerMenu() {
-    entry<MultiplayerMenuRoute> {
+    entry<MultiplayerMenu> {
         MultiplayerMenuScreen()
     }
 }

@@ -1,4 +1,4 @@
-package it.ric.chess.feature.multiplayer
+package it.ric.chess.feature.menu.multiplayer
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.ric.chess.core.log.Logger
@@ -9,8 +9,8 @@ import it.ric.chess.domain.usecase.match.CreateMatchUseCase
 import it.ric.chess.domain.usecase.match.JoinMatchUseCase
 import it.ric.chess.domain.usecase.match.ObserveActiveMatchesUseCase
 import it.ric.chess.domain.usecase.match.ObserveWaitingMatchesUseCase
-import it.ric.chess.feature.multiplayer.model.MultiplayerMenuUiState
-import it.ric.chess.feature.multiplayer.navigation.MultiplayerMenuNavigator
+import it.ric.chess.feature.menu.multiplayer.model.MultiplayerMenuUiState
+import it.ric.chess.feature.menu.multiplayer.navigation.MultiplayerMenuNavigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

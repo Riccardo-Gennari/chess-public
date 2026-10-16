@@ -1,4 +1,4 @@
-package it.ric.chess.feature.multiplayer.navigation
+package it.ric.chess.feature.menu.multiplayer.navigation
 
 import it.ric.chess.feature.match.navigation.ChessboardRoute
 import it.ric.chess.navigation.Navigator
