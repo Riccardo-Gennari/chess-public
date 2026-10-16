@@ -1,4 +1,4 @@
-package it.ric.chess.feature.multiplayer
+package it.ric.chess.feature.menu.multiplayer
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -15,7 +15,8 @@ import it.ric.chess.domain.usecase.match.JoinMatchUseCase
 import it.ric.chess.domain.usecase.match.ObserveActiveMatchesUseCase
 import it.ric.chess.domain.usecase.match.ObserveWaitingMatchesUseCase
 import it.ric.chess.feature.match.advanceUntilIdle
-import it.ric.chess.feature.multiplayer.navigation.MultiplayerMenuNavigator
+import it.ric.chess.feature.menu.multiplayer.MultiplayerMenuViewModel
+import it.ric.chess.feature.menu.multiplayer.navigation.MultiplayerMenuNavigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 

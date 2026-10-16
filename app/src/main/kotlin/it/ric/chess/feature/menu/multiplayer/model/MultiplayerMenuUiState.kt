@@ -1,4 +1,4 @@
-package it.ric.chess.feature.multiplayer.model
+package it.ric.chess.feature.menu.multiplayer.model
 
 import androidx.compose.runtime.Immutable
 import it.ric.chess.core.ui.model.UiText

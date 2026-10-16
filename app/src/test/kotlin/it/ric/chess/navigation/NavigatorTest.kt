@@ -2,7 +2,7 @@ package it.ric.chess.navigation
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import it.ric.chess.feature.menu.navigation.MenuRoute
+import it.ric.chess.feature.menu.main.navigation.MainMenu
 
 class NavigatorTest :
     FunSpec({
@@ -11,7 +11,7 @@ class NavigatorTest :
             val navigator = Navigator.noOp()
             navigator.currentBackStack shouldBe emptyList()
             navigator.pop() shouldBe null
-            navigator.clearAndPush(MenuRoute())
-            navigator.push(MenuRoute())
+            navigator.clearAndPush(MainMenu())
+            navigator.push(MainMenu())
         }
     })
