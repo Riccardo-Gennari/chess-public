@@ -4,6 +4,6 @@ import it.ric.chess.navigation.Route
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ChessboardRoute(
+data class Chessboard(
     val matchId: String? = null,
 ) : Route

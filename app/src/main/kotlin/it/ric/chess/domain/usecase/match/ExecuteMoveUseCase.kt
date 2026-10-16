@@ -15,7 +15,40 @@ data class MoveResult(
 
 class ExecuteMoveUseCase
     @Inject
-    constructor() {
+    constructor(
+        private val calculateValidMovesUseCase: CalculateValidMovesUseCase,
+    ) {
+        operator fun invoke(
+            board: Board,
+            fromRow: Int,
+            fromCol: Int,
+            toRow: Int,
+            toCol: Int,
+            currentTurn: PieceColor,
+            piece: Piece? = null,
+        ): Result<MoveResult> {
+            val targetPiece = piece ?: board[fromRow][fromCol]
+                ?: return Result.failure(IllegalArgumentException("No piece at position ($fromRow, $fromCol)"))
+
+            if (targetPiece.color != currentTurn) {
+                return Result.failure(
+                    IllegalStateException("Piece at ($fromRow, $fromCol) does not belong to active turn ($currentTurn)"),
+                )
+            }
+
+            val validMoves = calculateValidMovesUseCase(board, fromRow, fromCol, targetPiece)
+            if (!validMoves.contains(Pair(toRow, toCol))) {
+                return Result.failure(
+                    IllegalArgumentException("Move to ($toRow, $toCol) is invalid for piece $targetPiece"),
+                )
+            }
+
+            val nextBoard = ChessRules.performMove(board, fromRow, fromCol, toRow, toCol, targetPiece)
+            val nextTurn = ChessRules.getNextTurn(currentTurn)
+            val nextStatus = ChessRules.determineGameStatus(nextBoard, nextTurn)
+            return Result.success(MoveResult(nextBoard, nextTurn, nextStatus))
+        }
+
         operator fun invoke(
             board: Board,
             fromRow: Int,
@@ -24,10 +57,13 @@ class ExecuteMoveUseCase
             toCol: Int,
             piece: Piece,
             currentTurn: PieceColor,
-        ): MoveResult {
-            val nextBoard = ChessRules.performMove(board, fromRow, fromCol, toRow, toCol, piece)
-            val nextTurn = ChessRules.getNextTurn(currentTurn)
-            val nextStatus = ChessRules.determineGameStatus(nextBoard, nextTurn)
-            return MoveResult(nextBoard, nextTurn, nextStatus)
-        }
+        ): Result<MoveResult> = invoke(
+            board = board,
+            fromRow = fromRow,
+            fromCol = fromCol,
+            toRow = toRow,
+            toCol = toCol,
+            currentTurn = currentTurn,
+            piece = piece,
+        )
     }

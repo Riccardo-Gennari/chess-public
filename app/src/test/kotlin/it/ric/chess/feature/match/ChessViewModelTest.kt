@@ -44,7 +44,7 @@ class ChessViewModelTest :
                 every { this@mockk.invoke() } returns flowOf(Result.success(PlayerInfo.anonymous))
             }
             val mockCalculateValidMovesUseCase = CalculateValidMovesUseCase()
-            val mockExecuteMoveUseCase = ExecuteMoveUseCase()
+            val mockExecuteMoveUseCase = ExecuteMoveUseCase(mockCalculateValidMovesUseCase)
             val mockResolvePlayerNameUseCase = ResolvePlayerNameUseCase()
             val mockFactory = mockk<MatchHandlerFactory> {
                 every { create(any()) } returns handler
