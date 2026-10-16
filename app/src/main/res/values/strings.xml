@@ -25,8 +25,8 @@
     <string name="status_format">Status: %1$s</string>
     <string name="white_you">Light (You)</string>
     <string name="black_you">Dark (You)</string>
-    <string name="white_player">Light Player</string>
-    <string name="black_player">Dark Player</string>
+    <string name="white_player">Light</string>
+    <string name="black_player">Dark</string>
     <string name="turn_indicator">TURN</string>
     <string name="back">Back</string>
     <string name="invalid_move">Invalid move!</string>

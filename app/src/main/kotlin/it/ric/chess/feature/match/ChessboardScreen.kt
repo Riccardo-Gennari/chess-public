@@ -31,6 +31,7 @@ import it.ric.chess.core.ui.component.AppTheme
 import it.ric.chess.core.ui.component.BackButton
 import it.ric.chess.core.ui.component.LoadingOverlayHost
 import it.ric.chess.core.ui.component.UserMessageHost
+import it.ric.chess.core.util.PreviewDynamicColors
 import it.ric.chess.core.viewmodel.LoadingState
 import it.ric.chess.domain.model.GameMode
 import it.ric.chess.domain.model.MatchStatus
@@ -170,6 +171,7 @@ fun ChessboardScreen(
     }
 }
 
+@PreviewDynamicColors
 @PreviewLightDark
 @Composable
 private fun ChessboardScreenPreview() {
