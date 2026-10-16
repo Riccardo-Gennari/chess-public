@@ -1,5 +1,6 @@
 package it.ric.chess.data.datasource.playgames
 
+import android.util.Log.e
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.games.PlayGames
 import it.ric.chess.core.infrastructure.ActivityProvider
@@ -23,83 +24,92 @@ class AndroidPlayGamesDataSource
     ) : PlayGamesDataSource {
         private val log = log.withFixedTag(tag)
 
-        override suspend fun getAuthCode(webClientId: String): String? {
-            val currentActivity = activityProvider.currentActivity ?: return null
+        override suspend fun getAuthCode(webClientId: String): Result<String?> {
+            val currentActivity = activityProvider.currentActivity
+                ?: return Result.failure(IllegalStateException("No current activity"))
+
             return try {
                 val gamesSignInClient = PlayGames.getGamesSignInClient(currentActivity)
                 val authResult = gamesSignInClient.isAuthenticated().await()
                 if (authResult.isAuthenticated) {
-                    gamesSignInClient.requestServerSideAccess(webClientId, false).await()
+                    Result.success(gamesSignInClient.requestServerSideAccess(webClientId, false).await())
                 } else {
                     val signInResult = gamesSignInClient.signIn().await()
                     if (signInResult.isAuthenticated) {
-                        gamesSignInClient.requestServerSideAccess(webClientId, false).await()
+                        Result.success(gamesSignInClient.requestServerSideAccess(webClientId, false).await())
                     } else {
                         log.debug("Sign-in failed or cancelled")
-                        null
+                        Result.success(null)
                     }
                 }
             } catch (e: ApiException) {
                 log.error("API Error getting auth code: status=${e.statusCode}, message=${e.message}")
-                null
+                Result.failure(e)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 log.error("Error getting auth code", e)
-                null
+                Result.failure(e)
             }
         }
 
-        override suspend fun getPlayerInfo(): PlayerInfo? {
-            val currentActivity = activityProvider.currentActivity ?: return null
+        override suspend fun getPlayerInfo(): Result<PlayerInfo?> {
+            val currentActivity = activityProvider.currentActivity
+                ?: return Result.failure(IllegalStateException("No current activity"))
+
             return try {
                 val gamesSignInClient = PlayGames.getGamesSignInClient(currentActivity)
                 val authResult = gamesSignInClient.isAuthenticated().await()
                 if (authResult.isAuthenticated) {
                     val playersClient = PlayGames.getPlayersClient(currentActivity)
                     val player = playersClient.currentPlayer.await()
-                    PlayerInfo(
-                        playerId = player.playerId,
-                        displayName = player.displayName,
-                        iconImageUri = player.iconImageUri?.toString(),
+                    Result.success(
+                        PlayerInfo(
+                            playerId = player.playerId,
+                            displayName = player.displayName,
+                            iconImageUri = player.iconImageUri?.toString(),
+                        ),
                     )
                 } else {
-                    null
+                    Result.success(null)
                 }
             } catch (e: ApiException) {
                 log.error("API Error getting player info: status=${e.statusCode}, message=${e.message}")
-                null
+                Result.failure(e)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 log.error("Error getting player info", e)
-                null
+                Result.failure(e)
             }
         }
 
-        override suspend fun getPlayerInfo(playerId: String): PlayerInfo? {
-            val currentActivity = activityProvider.currentActivity ?: return null
+        override suspend fun getPlayerInfo(playerId: String): Result<PlayerInfo?> {
+            val currentActivity = activityProvider.currentActivity
+                ?: return Result.failure(IllegalStateException("No current activity"))
             return try {
                 val playersClient = PlayGames.getPlayersClient(currentActivity)
                 val annotatedData = playersClient.loadPlayer(playerId).await()
                 val player = annotatedData.get()
                 if (player != null) {
-                    PlayerInfo(
-                        playerId = player.playerId,
-                        displayName = player.displayName,
-                        iconImageUri = player.iconImageUri?.toString(),
+                    Result.success(
+                        PlayerInfo(
+                            playerId = player.playerId,
+                            displayName = player.displayName,
+                            iconImageUri = player.iconImageUri?.toString(),
+                        ),
                     )
                 } else {
-                    null
+                    Result.success(null)
                 }
             } catch (e: ApiException) {
                 log.error("API Error loading player $playerId: status=${e.statusCode}, message=${e.message}")
-                null
+                Result.failure(e)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 log.error("Error loading player $playerId", e)
-                null
+                Result.failure(e)
             }
         }
 

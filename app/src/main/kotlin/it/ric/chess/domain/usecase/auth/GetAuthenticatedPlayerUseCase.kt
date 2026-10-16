@@ -16,14 +16,14 @@ class GetAuthenticatedPlayerUseCase
         private val authRepository: AuthRepository,
         private val playerRepository: PlayerRepository,
     ) {
-        operator fun invoke(): Flow<PlayerInfo> =
+        operator fun invoke(): Flow<Result<PlayerInfo?>> =
             authRepository.authUser
                 .distinctUntilChanged()
                 .mapLatest { user ->
                     if (user != null) {
-                        playerRepository.getCurrentPlayerInfo() ?: PlayerInfo.anonymous
+                        playerRepository.getCurrentPlayerInfo()
                     } else {
-                        PlayerInfo.anonymous
+                        Result.success(null)
                     }
                 }
     }

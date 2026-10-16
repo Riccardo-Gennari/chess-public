@@ -10,27 +10,21 @@ import io.mockk.verify
 import it.ric.chess.core.log.Logger
 import it.ric.chess.domain.model.Match
 import it.ric.chess.domain.model.MatchStatus
-import it.ric.chess.domain.usecase.auth.GetAuthenticatedUserUseCase
-import it.ric.chess.domain.usecase.auth.SignInWithPlayGamesUseCase
 import it.ric.chess.domain.usecase.match.CreateMatchUseCase
 import it.ric.chess.domain.usecase.match.JoinMatchUseCase
 import it.ric.chess.domain.usecase.match.ObserveActiveMatchesUseCase
 import it.ric.chess.domain.usecase.match.ObserveWaitingMatchesUseCase
 import it.ric.chess.feature.match.advanceUntilIdle
 import it.ric.chess.feature.multiplayer.navigation.MultiplayerMenuNavigator
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class MultiplayerMenuViewModelTest :
     FunSpec({
 
         data class Mocks(
             val log: Logger,
             val nav: MultiplayerMenuNavigator,
-            val getAuthUserUseCase: GetAuthenticatedUserUseCase,
-            val signInUseCase: SignInWithPlayGamesUseCase,
             val observeActiveUseCase: ObserveActiveMatchesUseCase,
             val observeWaitingUseCase: ObserveWaitingMatchesUseCase,
             val createMatchUseCase: CreateMatchUseCase,
@@ -43,10 +37,6 @@ class MultiplayerMenuViewModelTest :
             val activeMatchesFlow = MutableStateFlow<List<Match>>(emptyList())
             val waitingMatchesFlow = MutableStateFlow<List<Match>>(emptyList())
 
-            val getAuthUserUseCase = mockk<GetAuthenticatedUserUseCase>(relaxed = true) {
-                every { uid } returns "test-uid"
-            }
-            val signInUseCase = mockk<SignInWithPlayGamesUseCase>(relaxed = true)
             val observeActiveUseCase = mockk<ObserveActiveMatchesUseCase> {
                 every { this@mockk.invoke() } returns activeMatchesFlow
             }
@@ -61,8 +51,6 @@ class MultiplayerMenuViewModelTest :
             return Mocks(
                 log,
                 nav,
-                getAuthUserUseCase,
-                signInUseCase,
                 observeActiveUseCase,
                 observeWaitingUseCase,
                 createMatchUseCase,
@@ -75,8 +63,6 @@ class MultiplayerMenuViewModelTest :
         fun setupViewModel(mocks: Mocks) =
             MultiplayerMenuViewModel(
                 log = mocks.log,
-                getAuthenticatedUserUseCase = mocks.getAuthUserUseCase,
-                signInWithPlayGamesUseCase = mocks.signInUseCase,
                 observeActiveMatchesUseCase = mocks.observeActiveUseCase,
                 observeWaitingMatchesUseCase = mocks.observeWaitingUseCase,
                 createMatchUseCase = mocks.createMatchUseCase,
@@ -84,16 +70,6 @@ class MultiplayerMenuViewModelTest :
                 navigator = mocks.nav,
                 sharingStarted = SharingStarted.Eagerly,
             )
-
-        test("init should sign in if not authenticated") {
-            val mocks = setupMocks()
-            every { mocks.getAuthUserUseCase.uid } returns null andThen "test-uid"
-
-            setupViewModel(mocks)
-            advanceUntilIdle()
-
-            coVerify { mocks.signInUseCase() }
-        }
 
         test("uiState should combine active and waiting matches correctly") {
             val mocks = setupMocks()

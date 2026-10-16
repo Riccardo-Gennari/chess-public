@@ -1,4 +1,4 @@
-package it.ric.chess.core.composable
+package it.ric.chess.core.ui.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

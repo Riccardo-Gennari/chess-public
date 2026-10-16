@@ -13,7 +13,7 @@ class DefaultPlayerRepository
     constructor(
         private val dataSource: PlayGamesDataSource,
     ) : PlayerRepository {
-        override suspend fun getCurrentPlayerInfo(): PlayerInfo? = dataSource.getPlayerInfo()
+        override suspend fun getCurrentPlayerInfo() = dataSource.getPlayerInfo()
 
-        override suspend fun getPlayerInfo(playerId: String): PlayerInfo? = dataSource.getPlayerInfo(playerId)
+        override suspend fun getPlayerInfo(playerId: String) = dataSource.getPlayerInfo(playerId)
     }

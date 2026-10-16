@@ -27,10 +27,10 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import it.ric.chess.R
-import it.ric.chess.core.composable.AppTheme
-import it.ric.chess.core.composable.BackButton
-import it.ric.chess.core.composable.LoadingOverlayHost
-import it.ric.chess.core.composable.UserMessageHost
+import it.ric.chess.core.ui.component.AppTheme
+import it.ric.chess.core.ui.component.BackButton
+import it.ric.chess.core.ui.component.LoadingOverlayHost
+import it.ric.chess.core.ui.component.UserMessageHost
 import it.ric.chess.core.viewmodel.LoadingState
 import it.ric.chess.domain.model.GameMode
 import it.ric.chess.domain.model.MatchStatus

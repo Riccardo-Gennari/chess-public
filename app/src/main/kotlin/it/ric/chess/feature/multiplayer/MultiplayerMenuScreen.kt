@@ -33,8 +33,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import it.ric.chess.R
-import it.ric.chess.core.composable.BackButton
-import it.ric.chess.core.composable.LoadingOverlayHost
+import it.ric.chess.core.ui.component.BackButton
+import it.ric.chess.core.ui.component.LoadingOverlayHost
+import it.ric.chess.core.ui.component.UserMessageHost
 import it.ric.chess.domain.model.Match
 import it.ric.chess.feature.multiplayer.model.MultiplayerMenuUiState
 import it.ric.chess.feature.multiplayer.navigation.MultiplayerMenuRoute
@@ -52,6 +53,7 @@ fun MultiplayerMenuScreen(viewModel: MultiplayerMenuViewModel = hiltViewModel())
     MultiplayerMenuScreen(
         uiState = uiState,
         onBack = viewModel::onBack,
+        onDismissMessage = viewModel::onDismissMessage,
         onCreateMatch = viewModel::onCreateMatch,
         onJoinMatch = viewModel::onJoinMatch,
     )
@@ -62,6 +64,7 @@ fun MultiplayerMenuScreen(viewModel: MultiplayerMenuViewModel = hiltViewModel())
 fun MultiplayerMenuScreen(
     uiState: MultiplayerMenuUiState,
     onBack: () -> Unit,
+    onDismissMessage: () -> Unit,
     onCreateMatch: (String) -> Unit,
     onJoinMatch: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -114,6 +117,9 @@ fun MultiplayerMenuScreen(
                 FloatingActionButton(onClick = { showCreateDialog = true }) {
                     Text("+", style = MaterialTheme.typography.headlineSmall)
                 }
+            },
+            snackbarHost = {
+                UserMessageHost(uiState.userMessage, onDismissMessage)
             },
         ) { padding ->
             if (uiState.waitingMatches.isEmpty() && uiState.activeMatches.isEmpty()) {

@@ -5,10 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
     val uid: String?
-    val isPlayGamesAuthAvailable: Flow<Boolean>
     val authUser: Flow<AuthUser?>
 
-    suspend fun signInWithPlayGames()
+    suspend fun signInWithPlayGames(): Result<AuthUser?>
 
-    suspend fun signOutFromPlayGames()
+    suspend fun signOutFromPlayGames(): Result<Unit>
 }

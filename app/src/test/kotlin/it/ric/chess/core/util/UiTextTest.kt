@@ -2,6 +2,7 @@ package it.ric.chess.core.util
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import it.ric.chess.core.ui.model.UiText
 
 class UiTextTest :
     FunSpec({

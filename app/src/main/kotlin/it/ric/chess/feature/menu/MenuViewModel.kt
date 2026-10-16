@@ -1,7 +1,11 @@
 package it.ric.chess.feature.menu
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import it.ric.chess.R
 import it.ric.chess.core.log.Logger
+import it.ric.chess.core.ui.component.UiAlertAction
+import it.ric.chess.core.ui.component.UiConfirmationAlert
+import it.ric.chess.core.ui.model.UiText
 import it.ric.chess.core.viewmodel.BaseViewModel
 import it.ric.chess.domain.model.PlayerInfo
 import it.ric.chess.domain.usecase.auth.GetAuthenticatedPlayerUseCase
@@ -9,8 +13,11 @@ import it.ric.chess.domain.usecase.auth.SignInWithPlayGamesUseCase
 import it.ric.chess.domain.usecase.auth.SignOutUseCase
 import it.ric.chess.feature.menu.model.MenuUiState
 import it.ric.chess.feature.menu.navigation.MenuNavigator
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -23,39 +30,69 @@ class MenuViewModel
         private val signInWithPlayGamesUseCase: SignInWithPlayGamesUseCase,
         private val signOutUseCase: SignOutUseCase,
         private val navigator: MenuNavigator,
-        sharingStarted: SharingStarted = SharingStarted.WhileSubscribed(5_000),
+        sharingStarted: SharingStarted = SharingStarted.WhileSubscribed(),
     ) : BaseViewModel(log) {
+        private val signInConfirmation = MutableStateFlow<UiConfirmationAlert?>(null)
+        private val snackbarMessage = MutableStateFlow<UiText?>(null)
         private val playerInfo =
             getAuthenticatedPlayerUseCase()
+                .onEach { if (it.isFailure) snackbarMessage.value = UiText.Resource(R.string.error_sign_in) }
+                .map { it.getOrNull() ?: PlayerInfo.anonymous }
                 .stateIn(scope, sharingStarted, PlayerInfo.anonymous)
 
-        val uiState =
-            playerInfo
-                .map { player ->
-                    MenuUiState(
-                        isSignedIn = player.playerId.isNotEmpty(),
-                        playerInfo = player,
-                        loadingState = viewModelLoadingState,
-                    )
-                }.stateIn(scope, sharingStarted, MenuUiState())
+        val uiState = combine(
+            playerInfo,
+            signInConfirmation,
+            snackbarMessage,
+        ) { playerInfo, signInConfirmation, snackbarMessage ->
+            MenuUiState(
+                isSignedIn = playerInfo.playerId.isNotEmpty(),
+                loadingState = viewModelLoadingState,
+                playerInfo = playerInfo,
+                signInConfirmationAlert = signInConfirmation,
+                snackbarMessage = snackbarMessage,
+            )
+        }.stateIn(scope, sharingStarted, MenuUiState())
+
+        fun onDismissMessage() {
+            snackbarMessage.value = null
+        }
 
         fun onSelectSinglePlayer() {
             navigator.navigateToSinglePlayer()
         }
 
         fun onSelectMultiPlayer() {
-            navigator.navigateToMultiplayerMenu()
+            if (playerInfo.value == PlayerInfo.anonymous) {
+                signInConfirmation.value = UiConfirmationAlert(
+                    title = UiText.Resource(R.string.sign_in_required),
+                    message = UiText.Resource(R.string.sign_in_to_continue),
+                    positiveAction = UiAlertAction(UiText.Resource(android.R.string.ok)) {
+                        signInConfirmation.value = null
+                        onSignIn()
+                    },
+                    negativeAction = UiAlertAction(UiText.Resource(android.R.string.cancel)) {
+                        signInConfirmation.value = null
+                    },
+                )
+            } else {
+                navigator.navigateToMultiplayerMenu()
+            }
         }
 
         fun onSignIn() {
             scope.launchWhileLoadingIfIdle {
-                signInWithPlayGamesUseCase()
+                signInWithPlayGamesUseCase().onFailure {
+                    snackbarMessage.value = UiText.Resource(R.string.error_sign_in)
+                }
             }
         }
 
         fun onSignOut() {
             scope.launchWhileLoadingIfIdle {
-                signOutUseCase()
+                signOutUseCase().onFailure {
+                    snackbarMessage.value = UiText.Resource(R.string.error_sign_out)
+                }
             }
         }
     }

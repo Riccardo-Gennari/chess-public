@@ -89,8 +89,11 @@ class RemoteMatchHandler(
 
     private suspend fun getOrFetchName(pgsId: String): String? {
         nameCache[pgsId]?.let { return it }
-        val info = playerRepository.getPlayerInfo(pgsId)
-        return info?.displayName?.also { nameCache[pgsId] = it }
+        return playerRepository
+            .getPlayerInfo(pgsId)
+            .map { info -> info?.displayName }
+            .getOrNull()
+            ?.also { nameCache[pgsId] = it }
     }
 
     override suspend fun onMove(

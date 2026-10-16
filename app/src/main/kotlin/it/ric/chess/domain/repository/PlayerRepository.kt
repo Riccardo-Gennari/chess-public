@@ -7,10 +7,10 @@ interface PlayerRepository {
      * Returns information about the currently authenticated Play Games player.
      * Returns null if not authenticated or if the operation fails.
      */
-    suspend fun getCurrentPlayerInfo(): PlayerInfo?
+    suspend fun getCurrentPlayerInfo(): Result<PlayerInfo?>
 
     /**
      * Returns information about a specific Play Games player by their ID.
      */
-    suspend fun getPlayerInfo(playerId: String): PlayerInfo?
+    suspend fun getPlayerInfo(playerId: String): Result<PlayerInfo?>
 }

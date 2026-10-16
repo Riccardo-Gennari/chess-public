@@ -7,7 +7,7 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import it.ric.chess.R
 import it.ric.chess.core.log.Logger
-import it.ric.chess.core.util.UiText
+import it.ric.chess.core.ui.model.UiText
 import it.ric.chess.core.viewmodel.BaseViewModel
 import it.ric.chess.domain.handler.MatchHandler
 import it.ric.chess.domain.handler.MatchHandlerFactory
@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 
 /**
@@ -90,7 +91,8 @@ class ChessViewModel
 
         private val playerNameFlow =
             getAuthenticatedPlayerUseCase()
-                .map { it.displayName }
+                .onEach { if (it.isFailure) userMessageFlow.value = UiText.Resource(R.string.error_sign_in) }
+                .map { it.getOrNull()?.displayName }
                 .stateIn(scope, sharingStarted, null)
 
         // Derived valid moves based on current board and selection
@@ -198,7 +200,7 @@ class ChessViewModel
             // In multiplayer, check if it's the player's turn
             val playerColor = state.playerColor
             if (matchHandler.gameMode == GameMode.REMOTE && (playerColor == null || turn != playerColor)) {
-                userMessageFlow.value = UiText.StringResource(R.string.not_your_turn)
+                userMessageFlow.value = UiText.Resource(R.string.not_your_turn)
                 return
             }
 
@@ -241,7 +243,7 @@ class ChessViewModel
             // Enforce turn and valid moves
             if (piece.color != turn || !validMovesFlow.value.contains(Pair(toRow, toCol))) {
                 selectedFlow.value = null
-                userMessageFlow.value = UiText.StringResource(R.string.invalid_move)
+                userMessageFlow.value = UiText.Resource(R.string.invalid_move)
                 return
             }
 

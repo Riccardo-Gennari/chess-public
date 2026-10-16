@@ -13,11 +13,9 @@ import it.ric.chess.domain.usecase.auth.SignInWithPlayGamesUseCase
 import it.ric.chess.domain.usecase.auth.SignOutUseCase
 import it.ric.chess.feature.match.advanceUntilIdle
 import it.ric.chess.feature.menu.navigation.MenuNavigator
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class MenuViewModelTest :
     FunSpec({
 
@@ -29,7 +27,7 @@ class MenuViewModelTest :
 
         test("initial state should be signed out and anonymous") {
             val (log, nav) = setupMocks()
-            val playerFlow = MutableStateFlow(PlayerInfo.anonymous)
+            val playerFlow = MutableStateFlow<Result<PlayerInfo?>>(Result.success(PlayerInfo.anonymous))
             val mockGetAuthPlayerUseCase = mockk<GetAuthenticatedPlayerUseCase> {
                 every { this@mockk.invoke() } returns playerFlow
             }
@@ -54,7 +52,7 @@ class MenuViewModelTest :
 
         test("uiState should update when user signs in") {
             val (log, nav) = setupMocks()
-            val playerFlow = MutableStateFlow(PlayerInfo.anonymous)
+            val playerFlow = MutableStateFlow<Result<PlayerInfo?>>(Result.success(PlayerInfo.anonymous))
             val mockGetAuthPlayerUseCase = mockk<GetAuthenticatedPlayerUseCase> {
                 every { this@mockk.invoke() } returns playerFlow
             }
@@ -74,7 +72,7 @@ class MenuViewModelTest :
             viewModel.uiState.value.isSignedIn shouldBe false
 
             val testPlayer = PlayerInfo("uid1", "Test User")
-            playerFlow.value = testPlayer
+            playerFlow.value = Result.success(testPlayer)
             advanceUntilIdle()
 
             val state = viewModel.uiState.value
@@ -84,7 +82,7 @@ class MenuViewModelTest :
 
         test("onSelectSinglePlayer should navigate to single player") {
             val (log, nav) = setupMocks()
-            val playerFlow = MutableStateFlow(PlayerInfo.anonymous)
+            val playerFlow = MutableStateFlow<Result<PlayerInfo?>>(Result.success(PlayerInfo.anonymous))
             val mockGetAuthPlayerUseCase = mockk<GetAuthenticatedPlayerUseCase> {
                 every { this@mockk.invoke() } returns playerFlow
             }
@@ -104,9 +102,9 @@ class MenuViewModelTest :
             verify { nav.navigateToSinglePlayer() }
         }
 
-        test("onSelectMultiPlayer should navigate to multiplayer menu") {
+        test("onSelectMultiPlayer should navigate to multiplayer menu when signed in") {
             val (log, nav) = setupMocks()
-            val playerFlow = MutableStateFlow(PlayerInfo.anonymous)
+            val playerFlow = MutableStateFlow<Result<PlayerInfo?>>(Result.success(PlayerInfo("uid1", "Test User")))
             val mockGetAuthPlayerUseCase = mockk<GetAuthenticatedPlayerUseCase> {
                 every { this@mockk.invoke() } returns playerFlow
             }
@@ -122,13 +120,15 @@ class MenuViewModelTest :
                 sharingStarted = SharingStarted.Eagerly,
             )
 
+            advanceUntilIdle()
+
             viewModel.onSelectMultiPlayer()
             verify { nav.navigateToMultiplayerMenu() }
         }
 
         test("onSignIn should call signInWithPlayGamesUseCase") {
             val (log, nav) = setupMocks()
-            val playerFlow = MutableStateFlow(PlayerInfo.anonymous)
+            val playerFlow = MutableStateFlow<Result<PlayerInfo?>>(Result.success(PlayerInfo.anonymous))
             val mockGetAuthPlayerUseCase = mockk<GetAuthenticatedPlayerUseCase> {
                 every { this@mockk.invoke() } returns playerFlow
             }
@@ -152,7 +152,7 @@ class MenuViewModelTest :
 
         test("onSignOut should call signOutUseCase") {
             val (log, nav) = setupMocks()
-            val playerFlow = MutableStateFlow(PlayerInfo.anonymous)
+            val playerFlow = MutableStateFlow<Result<PlayerInfo?>>(Result.success(PlayerInfo("uid1", "Test User")))
             val mockGetAuthPlayerUseCase = mockk<GetAuthenticatedPlayerUseCase> {
                 every { this@mockk.invoke() } returns playerFlow
             }

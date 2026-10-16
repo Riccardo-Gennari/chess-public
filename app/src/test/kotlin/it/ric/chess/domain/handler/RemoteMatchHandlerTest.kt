@@ -46,8 +46,8 @@ class RemoteMatchHandlerTest :
                 every { observeMatch("match-1") } returns flowOf(match)
             }
             val playerRepo = mockk<PlayerRepository> {
-                coEvery { getPlayerInfo("wp1") } returns PlayerInfo("wp1", "White Player")
-                coEvery { getPlayerInfo("bp1") } returns PlayerInfo("bp1", "Black Player")
+                coEvery { getPlayerInfo("wp1") } returns Result.success(PlayerInfo("wp1", "White Player"))
+                coEvery { getPlayerInfo("bp1") } returns Result.success(PlayerInfo("bp1", "Black Player"))
             }
 
             val handler = RemoteMatchHandler(matchRepo, playerRepo, "match-1", "user-1")
