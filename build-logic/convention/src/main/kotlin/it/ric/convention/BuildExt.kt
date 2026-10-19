@@ -2,6 +2,7 @@ package it.ric.convention
 
 import com.android.build.api.dsl.ApplicationExtension
 import git.semver.plugin.gradle.GitSemverPluginExtension
+import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -20,9 +21,9 @@ val Project.libs: VersionCatalog
 
 fun KotlinBaseExtension.setupKotlin(
     kotlinVersionString: String,
-    javaVersion: Int,
+    javaVersion: JavaVersion,
 ) {
-    jvmToolchain(javaVersion)
+    jvmToolchain(javaVersion.majorVersion.toInt())
     if (this is HasConfigurableKotlinCompilerOptions<*>) {
         val kotlinMajorVersion = kotlinVersionString.split('.').take(2).joinToString(".")
         val kotlinVersion = KotlinVersion.fromVersion(kotlinMajorVersion)
