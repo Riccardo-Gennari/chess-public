@@ -1,13 +1,12 @@
+import it.ric.convention.AndroidConfig
 import it.ric.convention.BuildParams
 import it.ric.convention.findLocalOrProjectProperty
-import it.ric.convention.getAsInt
 import it.ric.convention.setupKotlin
 import it.ric.convention.setupReleaseSigning
 import it.ric.convention.setupTestLogging
 import it.ric.convention.versionCode
 
 plugins {
-    id("it.ric.convention")
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.googleServices)
@@ -20,7 +19,7 @@ plugins {
 kotlin {
     setupKotlin(
         kotlinVersionString = libs.versions.kotlin.get(),
-        javaVersion = libs.versions.jvmTarget.getAsInt(),
+        javaVersion = AndroidConfig.jvmTarget,
     )
 }
 
@@ -46,19 +45,13 @@ dependencies {
 
 android {
     namespace = BuildParams.PACKAGE_NAME
-    compileSdk =
-        libs.versions.android.compileSdk
-            .getAsInt()
+    compileSdk = AndroidConfig.COMPILE_SDK
 
     defaultConfig {
         applicationId = BuildParams.PACKAGE_NAME
         manifestPlaceholders["appName"] = BuildParams.APP_NAME
-        minSdk =
-            libs.versions.android.minSdk
-                .getAsInt()
-        targetSdk =
-            libs.versions.android.targetSdk
-                .getAsInt()
+        minSdk = AndroidConfig.MIN_SDK
+        targetSdk = AndroidConfig.TARGET_SDK
         versionCode = semver.versionCode
         versionName = semver.version
 
@@ -71,8 +64,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
-        targetCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
+        sourceCompatibility = AndroidConfig.jvmTarget
+        targetCompatibility = AndroidConfig.jvmTarget
     }
 
     packaging {
