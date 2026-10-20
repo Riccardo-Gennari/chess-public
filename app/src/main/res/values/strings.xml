@@ -40,5 +40,5 @@
     <string name="please_try_again">Please try again.</string>
     <string name="retry">Retry</string>
     <string name="sign_in_required">Sign in required</string>
-    <string name="sign_in_to_continue">You need to be logged in your account to be able to access multiplayer.\nDo you want to sign in now?</string>
+    <string name="sign_in_to_continue">You need to be logged in your account to be able to access multiplayer.\n\nDo you want to sign in now?</string>
 </resources>

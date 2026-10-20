@@ -144,6 +144,8 @@ class MainMenuViewModelTest :
                 sharingStarted = SharingStarted.Eagerly,
             )
 
+            advanceUntilIdle()
+
             viewModel.onSignIn()
             advanceUntilIdle()
 
@@ -167,6 +169,8 @@ class MainMenuViewModelTest :
                 navigator = nav,
                 sharingStarted = SharingStarted.Eagerly,
             )
+
+            advanceUntilIdle()
 
             viewModel.onSignOut()
             advanceUntilIdle()

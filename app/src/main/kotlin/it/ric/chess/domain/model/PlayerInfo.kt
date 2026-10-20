@@ -7,5 +7,8 @@ data class PlayerInfo(
 ) {
     companion object {
         val anonymous = PlayerInfo(playerId = "", displayName = "Player", iconImageUri = null)
+        val guest = PlayerInfo(playerId = "", displayName = "Guest", iconImageUri = null)
     }
 }
+
+val (PlayerInfo?).isSignedIn: Boolean get() = this != null && this.playerId.isNotBlank()
