@@ -382,9 +382,9 @@ object ChessRules {
         currentTurn: PieceColor,
         playerColor: PieceColor?,
         gameMode: GameMode,
-    ): Boolean = when (gameMode) {
-        GameMode.LOCAL, GameMode.BOT -> true
-        GameMode.REMOTE -> playerColor != null && currentTurn == playerColor
-    }
+    ): Boolean =
+        when (gameMode) {
+            GameMode.LOCAL, GameMode.BOT -> true
+            GameMode.REMOTE -> playerColor != null && currentTurn == playerColor
+        }
 }
-

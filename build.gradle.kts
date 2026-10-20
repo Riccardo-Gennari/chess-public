@@ -39,12 +39,7 @@ allprojects {
                 excludes {
                     annotatedBy("androidx.compose.runtime.Composable")
                     annotatedBy("androidx.compose.ui.tooling.preview.Preview")
-                    classes(
-                        "*ComposableSingletons*",
-                        "*LiveLiterals*",
-                        "*$*DefaultImpls",
-                        "*_*",
-                    )
+                    classes("*ComposableSingletons*", "*LiveLiterals*", "*$*DefaultImpls", "*_*")
                     packages("dagger.hilt", "hilt_aggregated_deps", "*.composable")
                 }
             }

@@ -57,13 +57,14 @@ class ExecuteMoveUseCase
             toCol: Int,
             piece: Piece,
             currentTurn: PieceColor,
-        ): Result<MoveResult> = invoke(
-            board = board,
-            fromRow = fromRow,
-            fromCol = fromCol,
-            toRow = toRow,
-            toCol = toCol,
-            currentTurn = currentTurn,
-            piece = piece,
-        )
+        ): Result<MoveResult> =
+            invoke(
+                board = board,
+                fromRow = fromRow,
+                fromCol = fromCol,
+                toRow = toRow,
+                toCol = toCol,
+                currentTurn = currentTurn,
+                piece = piece,
+            )
     }
